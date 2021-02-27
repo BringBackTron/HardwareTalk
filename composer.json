@@ -1,0 +1,16 @@
+{
+  "name": "greenluc/SDEV328inclass/food",
+  "authors": [
+    {
+      "name": "Shawn Potter",
+      "email": "spotter@mail.greenriver.edu"
+    },
+    {
+      "name": "George McMullen",
+      "email": "gmcmullen@mail.greenriver.edu"
+    }
+  ],
+  "require": {
+    "bcosca/fatfree-core": "dev-master"
+  }
+}
