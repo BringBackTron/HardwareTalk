@@ -1,5 +1,5 @@
 {
-  "name": "greenluc/SDEV328inclass/food",
+  "name": "greenluc/SDEV328inclass/HardwareTalk",
   "authors": [
     {
       "name": "Shawn Potter",
@@ -12,5 +12,8 @@
   ],
   "require": {
     "bcosca/fatfree-core": "dev-master"
+  },
+  "autoload": {
+    "classmap": ["model/", "controllers/", "classes/"]
   }
 }
