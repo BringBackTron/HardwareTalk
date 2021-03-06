@@ -1,56 +1,56 @@
 <?php
-//Turn on error reporting
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
 
-//Require files
-require $_SERVER['DOCUMENT_ROOT'].'/../ht-db-config.php';
-
-//Define the query
-$sql = "INSERT INTO users (username, user_email, user_ip, user_password)
+function registerUser($dbh)
+{
+  //Define the query
+  $sql = "INSERT INTO users (username, user_email, user_ip, user_password)
         VALUES (:username, :userEmail, :userIp, :userPassword);";
-  
-//Prepare the statement
-$statement = $dbh->prepare($sql);
 
-//set variables
+  //Prepare the statement
+  $statement = $dbh->prepare($sql);
 
-//retreive username
-$username = $_POST['username'];
+  //set variables
 
-//retreive email
-$email = $_POST['email'];
+  //retreive username
+  $username = $_POST['username'];
 
-//retreive password from post data and then hash with sha1() if valid
-$password = $_POST['password'];
-$confirmPassword = $_POST['confirmPassword'];
+  //retreive email
+  $email = $_POST['email'];
 
-if(validPassword($password, $confirmPassword)){
-  $password = sha1($password);
+  //retreive password from post data and then hash with sha1() if valid
+  $password = $_POST['password'];
+  $confirmPassword = $_POST['confirmPassword'];
+
+  if(validPassword($password, $confirmPassword)){
+    $password = password_hash($password, PASSWORD_BCRYPT);
+  } else{
+    return false;
+  }
+
+  //get user IP Address and then hash with sha1()
+  $ipaddress = get_ip_address();
+  $ipaddress = md5($ipaddress);
+
+
+  //validate variables
+
+  //Bind the parameters
+  //$statement->bindParam('', $_POST[''], PDO::PARAM_STR);
+  $statement->bindParam(':username', $username, PDO::PARAM_STR);
+  $statement->bindParam(':userEmail', $email, PDO::PARAM_STR);
+  $statement->bindParam(':userIp', $ipaddress, PDO::PARAM_STR);
+  $statement->bindParam(':userPassword', $password, PDO::PARAM_STR);
+
+  //Execute
+  $statement->execute();
+  return true;
 }
 
-//get user IP Address and then hash with sha1()
-$ipaddress = get_ip_address();
-$ipaddress = sha1($ipaddress);
-
-
-//validate variables
-
-//Bind the parameters
-//$statement->bindParam('', $_POST[''], PDO::PARAM_STR);
-$statement->bindParam(':username', $username, PDO::PARAM_STR);
-$statement->bindParam(':userEmail', $email, PDO::PARAM_STR);
-$statement->bindParam(':userIp', $ipaddress, PDO::PARAM_STR);
-$statement->bindParam(':userPassword', $password, PDO::PARAM_STR);
-
-//Execute
-$statement->execute();
-  
-  /**
-   *
-   * Function original posted at: https://stackoverflow.com/a/2031935
-   * @return string
-   */
+/**
+ *
+ * Function original posted at: https://stackoverflow.com/a/2031935
+ * @return string
+ */
 function get_ip_address()
 {
   foreach (
