@@ -29,13 +29,13 @@
   });
 
     $f3->route('GET /login', function(){
-    // render home.html
+    // render login.html
     $view = new Template();
     echo $view->render('views/login.html');
     });
 
 $f3->route('GET /register', function(){
-    // render home.html
+    // render register.html
     $view = new Template();
     echo $view->render('views/register.html');
 });
