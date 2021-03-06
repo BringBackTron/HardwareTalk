@@ -27,6 +27,12 @@
     $view = new Template();
     echo $view->render('views/home.html');
   });
+
+    $f3->route('GET /login', function(){
+    // render home.html
+    $view = new Template();
+    echo $view->render('views/login.html');
+    });
   
   //run fat free
   $f3->run();
