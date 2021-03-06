@@ -1,6 +1,6 @@
 <?php
 
-function registerUser($dbh)
+function registerUser($f3, $dbh)
 {
   //Define the query
   $sql = "INSERT INTO users (username, user_email, user_ip, user_password)
@@ -9,30 +9,38 @@ function registerUser($dbh)
   //Prepare the statement
   $statement = $dbh->prepare($sql);
 
-  //set variables
+  //set and validate variables
 
   //retreive username
   $username = $_POST['username'];
+  if(!filter_var($username, FILTER_SANITIZE_STRING)){
+    $f3->set('errors["registerName"]', "Username is not valid");
+    return false;
+    
+  }
 
   //retreive email
   $email = $_POST['email'];
-
-  //retreive password from post data and then hash with sha1() if valid
-  $password = $_POST['password'];
-  $confirmPassword = $_POST['confirmPassword'];
-
-  if(validPassword($password, $confirmPassword)){
-    $password = password_hash($password, PASSWORD_BCRYPT);
-  } else{
+  if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+    $f3->set('errors["registerEmail"]', "Email is not valid");
     return false;
   }
 
-  //get user IP Address and then hash with sha1()
+  //retreive password from post data and then hash with BCRYPT if valid
+  $password = $_POST['password'];
+  $confirmPassword = $_POST['confirmPassword'];
+  
+  if(validPassword($password, $confirmPassword)){
+    $password = password_hash($password, PASSWORD_BCRYPT);
+  } else{
+    $f3->set('errors["registerPass"]', "Passwords do not match");
+    return false;
+  }
+
+  //get user IP Address and then hash with md5()
   $ipaddress = get_ip_address();
   $ipaddress = md5($ipaddress);
-
-
-  //validate variables
+  
 
   //Bind the parameters
   //$statement->bindParam('', $_POST[''], PDO::PARAM_STR);
