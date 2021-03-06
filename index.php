@@ -33,6 +33,13 @@
     $view = new Template();
     echo $view->render('views/login.html');
     });
-  
-  //run fat free
+
+$f3->route('GET /register', function(){
+    // render home.html
+    $view = new Template();
+    echo $view->render('views/register.html');
+});
+
+
+//run fat free
   $f3->run();
