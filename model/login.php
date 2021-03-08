@@ -10,37 +10,59 @@ class Login
   function logInUser()
   {
     global $validator;
-  
-    $result="";
-    //Define the query
-    $sql = "SELECT user_password FROM users WHERE user_email = :email;";
     
-    //Prepare the statement
-    $statement = $this->_dbh->prepare($sql);
+    $email = "";
+    $password = "";
     
-    if(empty($_POST['email'])) {
+    if(empty(trim($_POST['email']))){
       $this->_f3 -> set('errors["loginEmail"]', "Email can not be empty");
-    } else if($validator->validEmail($_POST['email'])) {
-      //Bind the parameters
-      $statement->bindParam(':email', $_POST['email'], PDO::PARAM_STR);
-      //Execute
-      $statement->execute();
-      $result = $statement->fetch(PDO::FETCH_ASSOC);
-      //echo var_dump($_POST['password']);
+    } else if(!($validator->validEmail(trim($_POST['email'])))){
+      $this->_f3 -> set('errors["loginEmail"]', "Invalid Email");
     } else {
-      $this->_f3->set('errors["loginEmail"]', "Email is not valid");
-      //echo var_dump($this->_f3->get('errors'));
+      $email = trim($_POST['email']);
     }
     
-    if(empty($_POST['password'])) {
+    if(empty(trim($_POST['password']))){
       $this->_f3 -> set('errors["loginPass"]', "Password can not be empty");
-    } else if(password_verify($_POST['password'], $result['user_password'])){
-      //echo '<script>alert("Passwords Match")</script>';
     } else {
-      $this->_f3 -> set('errors["loginPass"]', "Invalid Password");
-      //echo "<br>".var_dump($this->_f3->get('errors'));
-      return false;
+      $password = trim($_POST['password']);
     }
     
+    if(empty($this->_f3->get('errors'))) {
+      $sql = "SELECT user_id, username, user_password FROM users WHERE user_email = :email;";
+      
+      if($statement = $this->_dbh->prepare($sql)){
+        
+        $statement->bindParam(':email', $email, PDO::PARAM_STR);
+        
+        if($statement->execute()){
+          if($statement->rowCount() == 1){
+            $row = $statement->fetch();
+            $id = $row['user_id'];
+            $username = $row['username'];
+            $hashedPassword = $row['user_password'];
+            if(password_verify($password, $hashedPassword)){
+              session_start();
+              $_SESSION['loggedin'] = true;
+              $_SESSION['user_id'] = $id;
+              $_SESSION['username'] = $username;
+              echo '<script>alert("Passwords Match, user logged in")</script>';
+              echo "<pre>";
+              echo print_r($_SESSION, true);
+              echo "</pre>";
+            } else{
+              $this->_f3 -> set('errors["loginPass"]', "Invalid Password");
+            }
+          }
+        } else {
+          $this->_f3->set('errors["accountNotFound"]', "No account found with that Email Address");
+        }
+        unset($statement);
+      }
+    }
+    unset($_dbh);
+    $this->_f3->set('success["loggedin"]', "You have been logged in. You will be redirected.");
+    sleep(4);
+    $this->_f3->reroute('/');
   }
 }
