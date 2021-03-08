@@ -1,30 +1,54 @@
 <?php
-
-function logInUser($dbh, $f3)
+class Login
 {
-  $username = "";
-  $password = "";
-  
-  if(!filter_var($_POST['username'], FILTER_SANITIZE_STRING)){
-    $f3->set('errors["registerName"]', "Username is not valid");
-    return false;
+  private $_dbh;
+  private $_f3;
+  function __construct($dbh, $f3){
+    $this->_dbh = $dbh;
+    $this->_f3 = $f3;
   }
+  function logInUser()
+  {
+    global $validator;
   
+    $result="";
+    //Define the query
+    $sql = "SELECT user_password FROM users WHERE user_email = :email;";
+    
+    //Prepare the statement
+    $statement = $this->_dbh->prepare($sql);
+    
+    if(empty($_POST['email'])) {
+      $this->_f3 -> set('errors["loginEmail"]', "Email can not be empty");
+    } else if($validator->validEmail($_POST['email'])) {
+      //Bind the parameters
+      $statement->bindParam(':email', $_POST['email'], PDO::PARAM_STR);
+      //Execute
+      $statement->execute();
+      $result = $statement->fetch(PDO::FETCH_ASSOC);
+      
+      echo var_dump($_POST['password']);
+    } else {
+      $this->_f3->set('errors["loginEmail"]', "Email is not valid");
+      echo var_dump($this->_f3->get('errors'));
+    }
+    
+    /*print_r($result['user_password']);
+    
+    $password = $result[0];*/
   
-  //Define the query
-  $sql = "SELECT username user_password FROM users WHERE username = :username;";
-  
-  //Prepare the statement
-  $statement = $dbh->prepare($sql);
-  
-  //Bind the parameters
-  $statement->bindParam(':username', $_POST['username'], PDO::PARAM_STR);
-  
-  //Execute
-  $statement->execute();
-  
-  $statement->bindColumn(1, $username);
-  $statement->bindColumn(2, $password);
-  
-  return password_verify($_POST['password'], $password);
+    /*echo password_verify($_POST['password'], $result['user_password']);
+    password_verify($_POST['password'], $result['user_password'] );*/
+    
+    if(empty($_POST['password'])) {
+      $this->_f3 -> set('errors["loginPass"]', "Password can not be empty");
+    } else if(password_verify($_POST['password'], $result['user_password'])){
+      echo '<script>alert("Passwords Match")</script>';
+    } else {
+      $this->_f3 -> set('errors["loginPass"]', "Invalid Password");
+      echo "<br>".var_dump($this->_f3->get('errors'));
+      return false;
+    }
+    
+  }
 }
