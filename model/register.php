@@ -32,7 +32,7 @@ class Register{
       $username = $_POST['username'];
     } else {
       $this -> _f3 -> set('errors["registerName"]', "Username is not valid");
-      echo var_dump($this->_f3->get('errors'));
+      //echo var_dump($this->_f3->get('errors'));
     }
   
     //validate email
@@ -43,7 +43,7 @@ class Register{
       $email = $_POST['email'];
     } else {
       $this->_f3->set('errors["registerEmail"]', "Email is not valid");
-      echo var_dump($this->_f3->get('errors'));
+      //echo var_dump($this->_f3->get('errors'));
     }
   
     //retreive password from post data and then hash with BCRYPT if valid
@@ -56,7 +56,7 @@ class Register{
       $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
     } else{
       $this->_f3->set('errors["registerPass"]', "Passwords do not match");
-      echo var_dump($this->_f3->get('errors'));
+      //echo var_dump($this->_f3->get('errors'));
     }
   
     //hash IP address with md5()
@@ -72,7 +72,7 @@ class Register{
   
     //Execute
     if(empty($this->_f3->get('errors'))){
-      echo '<script>alert("statement executed")</script>';
+      //echo '<script>alert("statement executed")</script>';
       $statement->execute();
     }
     return true;

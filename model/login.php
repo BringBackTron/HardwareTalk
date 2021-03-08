@@ -26,27 +26,19 @@ class Login
       //Execute
       $statement->execute();
       $result = $statement->fetch(PDO::FETCH_ASSOC);
-      
-      echo var_dump($_POST['password']);
+      //echo var_dump($_POST['password']);
     } else {
       $this->_f3->set('errors["loginEmail"]', "Email is not valid");
-      echo var_dump($this->_f3->get('errors'));
+      //echo var_dump($this->_f3->get('errors'));
     }
-    
-    /*print_r($result['user_password']);
-    
-    $password = $result[0];*/
-  
-    /*echo password_verify($_POST['password'], $result['user_password']);
-    password_verify($_POST['password'], $result['user_password'] );*/
     
     if(empty($_POST['password'])) {
       $this->_f3 -> set('errors["loginPass"]', "Password can not be empty");
     } else if(password_verify($_POST['password'], $result['user_password'])){
-      echo '<script>alert("Passwords Match")</script>';
+      //echo '<script>alert("Passwords Match")</script>';
     } else {
       $this->_f3 -> set('errors["loginPass"]', "Invalid Password");
-      echo "<br>".var_dump($this->_f3->get('errors'));
+      //echo "<br>".var_dump($this->_f3->get('errors'));
       return false;
     }
     
