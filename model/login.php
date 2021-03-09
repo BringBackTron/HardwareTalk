@@ -1,4 +1,7 @@
 <?php
+/*
+ * TODO: make inputs sticky
+ */
 class Login
 {
   private $_dbh;
@@ -47,22 +50,23 @@ class Login
               $_SESSION['user_id'] = $id;
               $_SESSION['username'] = $username;
               echo '<script>alert("Passwords Match, user logged in")</script>';
+              /*
               echo "<pre>";
               echo print_r($_SESSION, true);
               echo "</pre>";
+              */
+              $this->_f3->set('success["loggedin"]', "You have been logged in. You will be redirected.");
             } else{
               $this->_f3 -> set('errors["loginPass"]', "Invalid Password");
             }
+          } else {
+            $this->_f3->set('errors["accountNotFound"]', "No account found with that Email Address");
           }
-        } else {
-          $this->_f3->set('errors["accountNotFound"]', "No account found with that Email Address");
         }
         unset($statement);
       }
     }
+    // echo var_dump($this->_f3->get("success['loggedin']"));
     unset($_dbh);
-    $this->_f3->set('success["loggedin"]', "You have been logged in. You will be redirected.");
-    sleep(4);
-    $this->_f3->reroute('/');
   }
 }
