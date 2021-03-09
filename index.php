@@ -69,6 +69,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
   echo "<br> SESSION ARRAY:";
   echo print_r($_SESSION,true);
   echo "</pre>";
+  
   // render register.html
   $view = new Template();
   echo $view->render('views/register.html');
