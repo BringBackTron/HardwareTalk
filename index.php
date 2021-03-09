@@ -31,7 +31,7 @@ $f3->set('DEBUG', 3);
 
 //Define a default route (home page)
 $f3->route('GET /', function(){
-  echo var_dump($_SESSION);
+  /*echo var_dump($_SESSION);*/
   // render home.html
   $view = new Template();
   echo $view->render('views/home.html');
@@ -63,12 +63,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
   }
 }
   
-  echo "<pre>";
+  /*echo "<pre>";
   echo "POST ARRAY:";
   echo print_r($_POST,true);
   echo "<br> SESSION ARRAY:";
   echo print_r($_SESSION,true);
-  echo "</pre>";
+  echo "</pre>";*/
   
   // render register.html
   $view = new Template();
@@ -77,7 +77,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 });
 
 $f3->route('GET /gaming', function(){
-    echo var_dump($_SESSION);
+//    echo var_dump($_SESSION);
     // render home.html
     $view = new Template();
     echo $view->render('views/communities/gaming.html');
