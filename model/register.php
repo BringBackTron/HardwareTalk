@@ -9,7 +9,9 @@ class Register{
   }
   function registerUser()
   {
+    //assign globals
     global $validator;
+    
     //Define the query
     $sql = "INSERT INTO users (username, user_email, user_ip, user_password)
           VALUES (:username, :userEmail, :userIp, :userPassword);";
@@ -17,46 +19,64 @@ class Register{
     //Prepare the statement
     $statement = $this->_dbh->prepare($sql);
     
-    //store post data
+    //create variables to store the post data
     $username = "";
     $email = "";
     $password = "";
-    $confirmPassword = "";
     $ipaddress = $this->get_ip();
   
     
-    //validate username
+    /* validate username */
+    //check to see if username is empty or not
     if(empty($_POST['username'])){
       $this->_f3->set('errors["registerName"]', "Username can not be empty");
-    } else if(ctype_alpha($_POST['username'])) {
+    }
+    //validate the email (nothing done at the moment)
+    else if(trim($_POST['username'])) {
       $username = $_POST['username'];
-    } else {
+    }
+    //else set errors
+    else {
       $this -> _f3 -> set('errors["registerName"]', "Username is not valid");
-      echo var_dump($this->_f3->get('errors'));
+      //echo var_dump($this->_f3->get('errors'));
     }
   
-    //validate email
-    
+    /* validate email */
+    //if email is empty then set error
     if(empty($_POST['email'])){
       $this->_f3->set('errors["registerEmail"]', "Email can not be empty");
-    } else if($validator->validEmail($_POST['email'])) {
+    }
+    //if email is valid then set email
+    else if($validator->validEmail($_POST['email'])) {
       $email = $_POST['email'];
-    } else {
+    }
+    //else set error that email is not valid
+    else {
       $this->_f3->set('errors["registerEmail"]', "Email is not valid");
-      echo var_dump($this->_f3->get('errors'));
+      //echo var_dump($this->_f3->get('errors'));
     }
   
-    //retreive password from post data and then hash with BCRYPT if valid
-    
+    /*
+     *  Retreive password from post data and then hash with BCRYPT if valid
+     *  Passwords don't need to be checked for sql injection because they
+     *  get hashed and salted before they're ever submitted to the database
+     */
+    //if password is empty then set error
     if(empty($_POST['password'])){
       $this->_f3->set('errors["registerPass"]', "Password can not be empty");
-    } else if(empty($_POST['confirmPassword'])){
+    }
+    //if confirm password is empty then set error
+    else if(empty($_POST['confirmPassword'])){
       $this->_f3->set('errors["registerConfirmPass"]', "Confirmation can not be empty");
-    } else if($validator->validPassword($_POST['password'], $_POST['confirmPassword'])){
+    }
+    //if password and confirm password are valid then add to variable
+    else if($validator->validPassword($_POST['password'], $_POST['confirmPassword'])){
       $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
-    } else{
+    }
+    //else set error that password's don't match
+    else{
       $this->_f3->set('errors["registerPass"]', "Passwords do not match");
-      echo var_dump($this->_f3->get('errors'));
+      //echo var_dump($this->_f3->get('errors'));
     }
   
     //hash IP address with md5()
