@@ -76,6 +76,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
   
 });
 
+$f3->route('GET /gaming', function(){
+    echo var_dump($_SESSION);
+    // render home.html
+    $view = new Template();
+    echo $view->render('views/communities/gaming.html');
+});
+
 
 //run fat free
   $f3->run();

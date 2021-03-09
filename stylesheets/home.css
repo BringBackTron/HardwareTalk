@@ -1,3 +1,11 @@
+a:link, .community-text:link {
+    text-decoration: none;!important
+}
+
+.community-text:link, .community-text:visited {
+    color:  white;
+}
+
 .gradient {
     height: 80px;
     width: 100%;
@@ -21,5 +29,114 @@
 
 .community-text {
     font-size: 70px;
+    text-decoration: none;
+}
 
+.disable-select {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.thumbnail {
+    margin-right: 15px;
+    max-height: 100px;
+    max-width:  100px;
+    display: inline;
+    float: left;
+    border: 5px solid black;
+}
+
+@media screen and (max-width: 1199px) {
+    .community-text {
+        font-size: 63px;
+    }
+
+    .thumbnail {
+        margin-right: 10px;
+        max-width: 110px;
+        max-height: 120px;
+    }
+}
+
+@media screen and (max-width: 991px) {
+    .community-text {
+        font-size: 46px;
+
+    }
+
+    .text-container {
+        max-width: 160px;
+    }
+
+    .thumbnail {
+        display: flex;
+        text-align: center;
+        max-width: 160px;
+        max-height: 160px;
+    }
+
+    .card {
+        height: 400px
+    }
+
+    .card-footer {
+
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .community-text {
+        font-size: 70px;
+
+    }
+
+    .text-container {
+        max-width: 550px;
+    }
+
+    .thumbnail {
+        display: block;
+        margin-right: 30px;
+    }
+
+    .card {
+        height: 290px
+    }
+}
+
+@media screen and (max-width: 575px) {
+    .community-text {
+        font-size: 70px;
+
+    }
+
+    .text-container {
+        max-width: 450px;
+    }
+
+    .thumbnail {
+        display: block;
+        margin-right: 30px;
+    }
+}
+
+@media screen and (max-width: 399px) {
+    .community-text {
+        font-size: 70px;
+
+    }
+
+    .text-container {
+        max-width: 600px;
+    }
+
+    .thumbnail {
+        margin-right: 10px;
+        max-width: 100px;
+        max-height: 100px;
+    }
 }
