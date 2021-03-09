@@ -31,15 +31,22 @@ $f3->set('DEBUG', 3);
 
 //Define a default route (home page)
 $f3->route('GET /', function(){
+  echo var_dump($_SESSION);
   // render home.html
   $view = new Template();
   echo $view->render('views/home.html');
 });
 
-$f3->route('GET|POST /login', function(){
+$f3->route('GET|POST /login', function($f3){
   global $login;
+  if($_SESSION['loggedin'] == true) {
+    $f3->reroute('/');
+  }
   if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $login->logInUser();
+  }
+  if(!empty($f3->get('success')) && empty($f3->get('errors'))){
+    $f3->reroute('/');
   }
 
   // render login.html
