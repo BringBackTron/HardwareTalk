@@ -58,7 +58,11 @@ $f3->route('GET|POST /register', function($f3, $dbh){
   global $register;
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
   $register->registerUser();
+  if(empty($f3->get('errors'))){
+    $f3->reroute('/');
+  }
 }
+  
   echo "<pre>";
   echo "POST ARRAY:";
   echo print_r($_POST,true);
