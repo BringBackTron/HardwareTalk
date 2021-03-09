@@ -50,6 +50,10 @@ a:link, .community-text:link {
     border: 5px solid black;
 }
 
+.community-banner {
+    text-align: center;
+}
+
 @media screen and (max-width: 1199px) {
     .community-text {
         font-size: 63px;
