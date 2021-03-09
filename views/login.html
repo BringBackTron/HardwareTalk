@@ -12,7 +12,7 @@
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="stylesheets/login.css">
+  <link rel="stylesheet" type="text/css" href="stylesheets/login.css">
   <title>Hardware Talk | Login</title>
 </head>
 <body class="text-center">
@@ -21,9 +21,29 @@
     <h1>Please sign in</h1>
     <label for="loginEmail" class="sr-only">Email address</label>
     <input type="email" id="loginEmail" name="email" class="form-control" placeholder="Email Address">
+    <span class="text-danger">
+      <check if="{{ isset(@errors['loginEmail']) }}">
+        {{ @errors['loginEmail'] }}
+      </check>
+    </span>
     <label for="loginPassword" class="sr-only">Password</label>
     <input type="password" id="loginPassword" name="password" class="form-control" placeholder="Password">
+    <span class="text-danger">
+      <check if="{{ isset(@errors['loginPass']) }}">
+        {{ @errors['loginPass'] }}
+      </check>
+    </span>
     <button class="btn btn-lg btn-success btn-block" type="submit">Sign In</button>
+    <span class="text-danger">
+      <check if="{{ isset(@errors['accountNotFound']) }}">
+        {{ @errors['accountNotFound'] }}
+      </check>
+    </span>
+    <span class="text-successf">
+      <check if="{{ isset(@success['loggedin']) }}">
+        {{ @success['loggedin'] }}
+      </check>
+    </span>
   </form>
 </div>
 
