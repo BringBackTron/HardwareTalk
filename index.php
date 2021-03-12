@@ -83,6 +83,13 @@ $f3->route('GET /gaming', function(){
     echo $view->render('views/communities/gaming.html');
 });
 
+$f3->route('GET /diy', function(){
+//    echo var_dump($_SESSION);
+  // render home.html
+  $view = new Template();
+  echo $view->render('views/communities/diy.html');
+});
+
 
 //run fat free
   $f3->run();
