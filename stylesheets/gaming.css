@@ -10,6 +10,11 @@
 
 }
 
+hr {
+    padding:0;
+    margin:0;
+}
+
 .post-container {
     margin: 15px;
     border: 1px solid black;

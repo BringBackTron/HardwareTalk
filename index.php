@@ -24,6 +24,7 @@ $f3 = Base::instance();
 $register = new Register($dbh, $f3);
 $login = new Login($dbh, $f3);
 $validator = new Validator();
+$community = new Community($dbh, $f3);
 
 
 //set fat-free debugging
@@ -83,11 +84,16 @@ $f3->route('GET /gaming', function(){
     echo $view->render('views/communities/gaming.html');
 });
 
-$f3->route('GET /diy', function(){
-//    echo var_dump($_SESSION);
+$f3->route('GET /community/9', function(){
+
+  global $community;
+  //echo var_dump($_SESSION);
   // render home.html
+  $community->viewPosts();
+
   $view = new Template();
   echo $view->render('views/communities/diy.html');
+
 });
 
 
