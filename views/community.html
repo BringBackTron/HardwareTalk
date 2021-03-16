@@ -77,7 +77,7 @@
           </div>
         </div>
         <div class="col-2 post-thumbs">
-          <div class="align-self-center">
+          <div class="btn btn-outline-primary btn-block thumb-button align-self-center">
             <svg xmlns="http://www.w3.org/2000/svg"
                  width="15" height="15"
                  fill="currentColor"
@@ -89,7 +89,7 @@
           </div>
         </div>
         <div class="col-2 post-comments">
-          <div>
+          <div class="btn btn-outline-primary btn-block align-self-center">
             <svg xmlns="http://www.w3.org/2000/svg"
                  width="15"
                  height="15"
@@ -102,7 +102,7 @@
           </div>
         </div>
         <div class="col-2 post-save">
-          <div>
+          <div class="btn btn-outline-primary btn-block align-self-center">
             <svg xmlns="http://www.w3.org/2000/svg"
                  width="15"
                  height="15"
@@ -115,7 +115,7 @@
           </div>
         </div>
       </div>
-      <a href="community/{{@post.community_id}}?={{@post_id}}" class="stretched-link"></a>
+      <a href="{{@BASE}}/community/{{@post.community_id}}/{{@post.post_id}}" class="stretched-link"></a>
     </div>
   </repeat>
 </div>

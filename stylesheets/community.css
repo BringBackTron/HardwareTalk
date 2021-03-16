@@ -1,3 +1,62 @@
+.btn {
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+.disable-select {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+hr{
+    margin-bottom:5px;
+}
+
+.post-container {
+    z-index: 1;
+    margin: 15px;
+    border: 1px solid black;
+}
+
+.post-details {
+    display: inline;
+    font-size: 18px;
+    margin-left: 10px;
+    margin-top: 2px;
+}
+
+.post-info{
+    font-family: sans-serif;
+    font-size: 0.8rem;
+}
+
+.post-options {
+    display: inline;
+    font-size: 20px;
+    margin-left: 10px;
+
+}
+
+.post-thumbs{
+    position: relative;
+    z-index: 5;
+}
+
+.post-time {
+    color: darkgray;
+    font-size: 0.8rem;
+}
+
+.post-title {
+    display: inline;
+    font-size: 28px;
+    margin-left: 10px;
+}
+
 .thumbnail {
     max-width: 100px;
     max-height: 100px;
@@ -8,51 +67,4 @@
 
 .thumbnail:hover {
 
-}
-
-hr{
-    margin-bottom:0;
-}
-
-.post-container {
-    margin: 15px;
-    border: 1px solid black;
-}
-
-.post-title {
-    display: inline;
-    font-size: 28px;
-    margin-left: 10px;
-}
-
-.post-details {
-    display: inline;
-    font-size: 18px;
-    margin-left: 10px;
-    margin-top: 2px;
-}
-
-.post-options {
-    display: inline;
-    font-size: 20px;
-    margin-left: 10px;
-
-}
-.post-time {
-    color: darkgray;
-    font-size: 0.8rem;
-}
-
-.post-info{
-    font-family: sans-serif;
-    font-size: 0.8rem;
-}
-
-.disable-select {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
