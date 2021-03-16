@@ -139,6 +139,23 @@ $f3->route('GET /community/@community_id', function($f3){
   
 });
 
+$f3->route('GET /community/@community_id/@post_id', function($f3){
+  
+  $community_id = $f3->get("PARAMS.community_id");
+  $post_id = $f3->get("PARAMS.post_id");
+  
+  /*
+   * TODO: if community_id is outside certain bounds redirect to error page.
+   * TODO: if post_id is outside certain bounds redirect to error page.
+   */
+  
+  global $community;
+  
+  $view = new Template();
+  echo $view->render('views/community.html');
+  
+});
+
 
 
 
