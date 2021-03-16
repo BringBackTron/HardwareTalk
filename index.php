@@ -72,13 +72,14 @@ $f3->route('GET|POST /register', function($f3, $dbh){
       $f3->reroute('/');
     }
   }
-
-  /*echo "<pre>";
-  echo "POST ARRAY:";
-  echo print_r($_POST,true);
-  echo "<br> SESSION ARRAY:";
-  echo print_r($_SESSION,true);
-  echo "</pre>";*/
+  
+  /* Debug */
+  //  echo "<pre>";
+  //  echo "POST ARRAY:";
+  //  echo print_r($_POST,true);
+  //  echo "<br> SESSION ARRAY:";
+  //  echo print_r($_SESSION,true);
+  //  echo "</pre>";
 
   // render register.html
   $view = new Template();
@@ -87,26 +88,58 @@ $f3->route('GET|POST /register', function($f3, $dbh){
 });
 
 $f3->route('GET /gaming', function(){
-//    echo var_dump($_SESSION);
+  
+  /* Debug */
+  // echo var_dump($_SESSION);
+  
   // render home.html
   $view = new Template();
   echo $view->render('views/communities/gaming.html');
 });
 
-$f3->route('GET /community/9', function($f3){
+$f3->route('GET /community/12', function($f3){
 
   global $community;
-  //echo var_dump($_SESSION);
-  // render home.html
   $community->viewPosts();
-  /*echo "<pre>";
-  echo print_r($f3->get("posts"));
-  echo "</pre>";*/
+  
+  /* Debug */
+  // echo var_dump($_SESSION);
+  // render home.html
+  // echo "<pre>";
+  // echo print_r($f3->get("posts"));
+  // echo "</pre>";
 
   $view = new Template();
   echo $view->render('views/communities/diy.html');
 
 });
+
+$f3->route('GET /community/@community_id', function($f3){
+
+  $community_id = $f3->get("PARAMS.community_id");
+  
+  /*
+   * TODO: if community_id is outside certain bounds redirect to error page.
+   */
+  
+  global $community;
+  $community->viewPosts($community_id);
+  
+  /* Debug */
+  // echo $community_id;
+  // echo var_dump($_SESSION);
+  // echo "<pre>";
+  // echo print_r($f3->get("posts"));
+  // echo "</pre>";
+  
+  
+  
+  $view = new Template();
+  echo $view->render('views/community.html');
+  
+});
+
+
 
 
 //run fat free
