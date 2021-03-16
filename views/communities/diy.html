@@ -50,7 +50,7 @@
 
 <div class="container">
   <repeat group="{{ @posts }}" value="{{ @post }}">
-  <div class="post-container border p-2">
+  <div class="post-container border p-2 position-relative">
     <div class="row post-header">
       <div class="col">
         <h4>{{ @post.post_subject }}</h4>
@@ -100,6 +100,7 @@
         </div>
       </div>
     </div>
+    <a href="community/{{@post.community_id}}?={{@post_id}}" class="stretched-link"></a>
   </div>
   </repeat>
 </div>
