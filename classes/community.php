@@ -67,4 +67,14 @@ class Community
     */
 
   }
+  
+  //TODO: write function for submitting posts
+  function submitPost(){
+  
+  }
+  
+  //TODO: write function to add thumbs to post
+  function addThumbs(){
+  
+  }
 }
