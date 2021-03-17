@@ -96,8 +96,10 @@ class Controller
 
     global $community;
 
+    $community->viewComments($community_id, $post_id);
+
     $view = new Template();
-    echo $view->render('views/community.html');
+    echo $view->render('views/comments.html');
   }
 
 

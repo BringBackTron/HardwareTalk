@@ -8,7 +8,7 @@ class Community
     $this->_dbh =  $dbh;
     $this->_f3 = $f3;
   }
-  function viewPosts($id)
+  function viewPosts($community_id)
   {
     $sql = "SELECT * FROM posts WHERE community_id = :community_id ORDER BY post_creation_date DESC ";
     if($statement = $this->_dbh->prepare($sql)){
@@ -21,7 +21,7 @@ class Community
       // $url = explode('/', $url);
       // $community_id = array_pop($url);
       
-      $statement->bindParam(":community_id", $id, PDO::PARAM_STR);
+      $statement->bindParam(":community_id", $community_id, PDO::PARAM_STR);
       
     }
     /* Currently a Debug statement, change to something else like an error page */
@@ -67,6 +67,55 @@ class Community
     */
 
   }
+
+  //TODO: write function to display posts
+  function viewComments($community_id, $post_id)
+  {
+    $sql = "SELECT * FROM comments WHERE community_id = :community_id AND post_id = :post_id ORDER BY comment_thumbs";
+    if($statement = $this->_dbh->prepare($sql)){
+
+      /* Debug */
+       echo "statement prepared";
+
+      $statement->bindParam(":community_id", $community_id, PDO::PARAM_STR);
+      $statement->bindParam(":post_id", $post_id, PDO::PARAM_STR);
+
+    }
+    /* Currently a Debug statement, change to something else like an error page */
+
+    else {
+      echo "<br>statement failed to prepare";
+    }
+
+
+
+    if($statement->execute()){
+
+      /* Debug */
+       echo "<br>statement executed";
+
+      $results = $statement->fetchAll();
+      $this->_f3->set("comments", $results);
+      echo "<pre>";
+      echo print_r($results, true);
+      echo "</pre>";
+    }
+    /* Debug */
+
+    else {
+      echo "<br>statement failed";
+    }
+
+
+
+    /* Debug */
+
+    echo "\n<br>PDOStatement::errorInfo():\n";
+    $arr = $statement->errorInfo();
+    print_r($arr);
+
+
+  }
   
   //TODO: write function for submitting posts
   function submitPost(){
@@ -77,4 +126,6 @@ class Community
   function addThumbs(){
   
   }
+
+
 }

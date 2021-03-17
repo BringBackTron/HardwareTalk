@@ -34,10 +34,10 @@ $validator = new Validator();
 $community = new Community($dbh, $f3);
 
 
-//set fat-free debugging
+// set fat-free debugging
 $f3->set('DEBUG', 3);
 
-//Define a default route (home page)
+// define a default route (home page)
 $f3->route('GET /', function($f3){
 
   global $controller;
@@ -46,6 +46,7 @@ $f3->route('GET /', function($f3){
 
 });
 
+// define route to login page
 $f3->route('GET|POST /login', function(){
 
   global $controller;
@@ -53,6 +54,7 @@ $f3->route('GET|POST /login', function(){
   $controller->login();
 });
 
+// define route to register page
 $f3->route('GET|POST /register', function(){
 
   global $controller;
@@ -88,6 +90,7 @@ $f3->route('GET /community/12', function($f3){ //deprecated, remove later
 
 });
 
+// define a dynamic route to each community page
 $f3->route('GET /community/@community_id', function($f3){
 
   global $controller;
@@ -98,6 +101,7 @@ $f3->route('GET /community/@community_id', function($f3){
 
 });
 
+// define a dynamic route to each page for posts
 $f3->route('GET /community/@community_id/@post_id', function($f3){
 
   global $controller;
@@ -108,9 +112,6 @@ $f3->route('GET /community/@community_id/@post_id', function($f3){
   $controller->posts($community_id, $post_id);
 
 });
-
-
-
 
 //run fat free
 $f3->run();
