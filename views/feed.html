@@ -22,33 +22,74 @@
 <body>
 
 <header>
-    <div class="collapse bg-dark" id="navbarHeader">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-7 col-md-7 py-4">
-                    <h4 class="text-white">About</h4>
-                    <p class="text-muted">We're two guys working on bringing communication to the hardware and technology space by creating a unique type of forum that allows questions to be answered and info to be shared!</p>
-                </div>
-                <div class="col-sm-4 offset-md-1 py-4">
-                    <h4 class="text-white">Contact</h4>
-                    <ul class="list-unstyled">
-                        <li><a href="mailto:contact@hardwaretalk.com" class="text-white">Email me</a></li>
-                    </ul>
-                </div>
-            </div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="{{@BASE}}">
+            <img src="../images/logo.png"
+                 width="30"
+                 height="30"
+                 class="d-inline-block align-top"
+                 alt="hardware talk logo">
+            <strong>Hardware Talk</strong>
+        </a>
+        <button class="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarNav"
+                aria-controls="navbarNav"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <check if="{{@SESSION.loggedin==true}}">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 width="16"
+                                 height="16"
+                                 fill="currentColor"
+                                 class="bi bi-person-fill"
+                                 viewBox="0 0 16 16">
+                                <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                            </svg>
+                            {{@SESSION.username}}
+                        </a>
+                    </li>
+                    <li class="nav-item px-3">
+                        <a class="nav-link" href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 width="16"
+                                 height="16"
+                                 fill="gray"
+                                 class="bi bi-box-arrow-in-right"
+                                 viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"/>
+                                <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+                            </svg>
+                            Logout
+                        </a>
+                    </li>
+                </check>
+                <check if="{{@SESSION.loggedin==false}}">
+                    <li class="nav-item">
+                        <a class="nav-link" href="login">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 width="16"
+                                 height="16"
+                                 fill="currentColor"
+                                 class="bi bi-person-fill"
+                                 viewBox="0 0 16 16"
+                            >
+                                <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                            </svg>
+                            Login
+                        </a>
+                    </li>
+                </check>
+            </ul>
         </div>
-    </div>
-    <div class="navbar navbar-dark bg-dark box-shadow">
-        <div class="container d-flex justify-content-between">
-            <a href="{{ @BASE }}" class="navbar-brand d-flex align-items-center">
-                <img src="images/logo.png" width="30" height="30"></img>&nbsp;
-                <strong>Hardware Talk</strong>
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-        </div>
-    </div>
+    </nav>
 </header>
 
 <div class="container">
