@@ -41,6 +41,10 @@ hr{
 
 }
 
+.post-text {
+    overflow: hidden;
+}
+
 .post-thumbs{
     position: relative;
     z-index: 5;
