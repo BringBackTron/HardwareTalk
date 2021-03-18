@@ -65,14 +65,19 @@ class Controller
     echo $view->render('views/register.html');
   }
 
-  function community($id)
+  function community($community_id)
   {
     /*
    * TODO: if community_id is outside certain bounds redirect to error page.
    */
 
     global $community;
-    $community->viewPosts($id);
+    global $data;
+    $community->viewPosts($community_id);
+
+    $name = $data->getCommunityName($community_id);
+
+    $this->_f3->set("pageTitle", $name);
 
     /* Debug */
     // echo $community_id;
@@ -95,7 +100,11 @@ class Controller
    */
 
     global $community;
+    global $data;
 
+    $name = $data->getCommunityName($community_id);
+
+    $this->_f3->set("pageTitle", $name);
     $community->viewComments($community_id, $post_id);
 
     $view = new Template();
