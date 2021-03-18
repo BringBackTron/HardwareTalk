@@ -7,7 +7,7 @@
   <meta name="author" content="">
   <link rel="icon" href="../favicon.ico">
 
-  <title>{{@pageTitle}}</title>
+  <title>Hardware Talk - {{@pageTitle}}</title>
 
   <!-- Bootstrap core CSS -->
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
@@ -100,8 +100,8 @@
       </div>
       <div class="row d-flex post-subject justify-content-around">
         <div class="col-10">
-          <p class="post-subject-text">
-            {{ @post_subject }}
+          <p class="post-text">
+            {{ @post.post_text }}
           </p>
         </div>
         <check if="{{@post.post_type}} == 1">
