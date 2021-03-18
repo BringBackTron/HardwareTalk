@@ -3,7 +3,8 @@
 class Register{
   private $_dbh;
   private $_f3;
-  function __construct($dbh, $f3){
+  function __construct($dbh, $f3)
+  {
     $this->_dbh = $dbh;
     $this->_f3 = $f3;
   }
