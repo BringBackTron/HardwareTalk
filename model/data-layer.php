@@ -5,7 +5,7 @@ class DataLayer
 
   /**
    * DataLayer constructor.
-   * @param $_f3
+   * @param $f3 object fat free object
    */
   public function __construct($f3)
   {
