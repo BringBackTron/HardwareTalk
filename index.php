@@ -1,5 +1,6 @@
 <?php
 /*
+ * Authors: George McMullen, Shawn Potter
  * TODO: create logout
  * TODO: hide login button if user is logged in
  * TODO: work on feed page
