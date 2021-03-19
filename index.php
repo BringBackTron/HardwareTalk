@@ -4,10 +4,9 @@
  * TODO: create logout
  * TODO: hide login button if user is logged in
  * TODO: work on feed page
- * TODO: research last_post tracking
  * TODO: design comments
- * TODO: create comments view for posts
- * TODO: create post and comment submissions
+ * TODO: create comments view for posts (partially done)
+ * TODO: create comment submissions
  */
 
 //The Controller
