@@ -96,6 +96,8 @@ class Community
 
       $results = $statement->fetchAll();
       $this->_f3->set("comments", $results);
+
+      /* Debug */
       echo "<pre>";
       echo print_r($results, true);
       echo "</pre>";
@@ -123,7 +125,7 @@ class Community
             VALUES (:community_id, :user_poster_id, :post_type, :post_subject, :post_text)";
     if($statement = $this->_dbh->prepare($sql)) {
       /* Debug */
-       echo "statement prepared";
+      // echo "statement prepared";
 
       $community_id = "";
       $post_type = "";
@@ -153,7 +155,7 @@ class Community
   
   //TODO: write function to add thumbs to post
   function addThumbs(){
-  
+
   }
 
 

@@ -2,13 +2,15 @@
 class DataLayer
 {
   private $_f3;
+  private $_dbh;
 
   /**
    * DataLayer constructor.
    * @param $f3 object fat free object
    */
-  public function __construct($f3)
+  function __construct($dbh, $f3)
   {
+    $this -> _dbh = $dbh;
     $this -> _f3 = $f3;
   }
 
@@ -34,6 +36,90 @@ class DataLayer
         return "Coding";
       case 9:
         return "DIY";
+      default:
+        return "ERROR";
     }
+  }
+
+  /**
+   * Updates the database as to the last updated post
+   *
+   * Updates the database as to the last updated post by getting the latest
+   * post in the table for the specified community and updating the
+   * community_last_post_id column in the database.
+   *
+   * @param $community_id
+   */
+  function updateLastPosted($community_id)
+  {
+    //get and assign last posted
+    $lastPost = $this->getLastPosted($community_id);
+    //update community table with lastest post
+    $sql = "UPDATE communities SET community_last_post_id = :last_post WHERE community_id = :community_id";
+    if($statement = $this->_dbh->prepare($sql)) {
+      /* Debug */
+      // echo "statement prepared";
+
+      if(empty($lastPost['MAX(post_id)'])){
+        $lastPost = 0;
+      } else {
+        $lastPost = $lastPost['MAX(post_id)'];
+      }
+
+      $statement->bindParam(":community_id", $community_id, PDO::PARAM_INT);
+      $statement->bindParam(":last_post", $lastPost, PDO::PARAM_INT);
+
+      if($statement->execute()) {
+        //do nothing
+      } else{
+
+        echo "An Error Occured While Executing";
+      }
+    } else {
+      echo "An Error Occured While Preparing.";
+    }
+  }
+
+  /**
+   * Returns an array containing the last updated post
+   *
+   * Returns an array containing the last updated post by retreiving the maximum
+   * post_id from the post table in the database.
+   *
+   * @param $community_id integer the id number of the community
+   * @return array containing the max value id in the post_id column
+   */
+  function getLastPosted($community_id)
+  {
+    //get latest post_id
+    $sql = "SELECT MAX(post_id) FROM posts WHERE community_id = :community_id";
+    if($statement = $this->_dbh->prepare($sql)) {
+      /* Debug */
+      // echo "statement prepared";
+
+      $statement->bindParam(":community_id", $community_id, PDO::PARAM_INT);
+
+      if($statement->execute()) {
+
+        if($statement->rowCount() == 1){
+          $result = $statement->fetch();
+
+          /* Debug */
+          echo "<pre>";
+          echo print_r($result, true);
+          echo "</pre>";
+
+          return $result;
+        } else {
+          echo "Could not return value";
+        }
+
+      } else{
+        echo "An Error Occured While Executing";
+      }
+    } else {
+      echo "An Error Occured While Preparing.";
+    }
+    return null;
   }
 }

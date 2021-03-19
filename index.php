@@ -33,7 +33,7 @@ $register = new Register($dbh, $f3);
 $login = new Login($dbh, $f3);
 $validator = new Validator();
 $community = new Community($dbh, $f3);
-$data = new DataLayer($f3);
+$data = new DataLayer($dbh, $f3);
 
 
 // set fat-free debugging

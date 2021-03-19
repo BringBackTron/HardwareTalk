@@ -15,11 +15,17 @@ class Controller
 
   function home()
   {
+    global $data;
+
     $view = new Template();
     if($_SESSION['loggedin'] == true) {
       echo $view->render('views/feed.html');
     } else {
       echo $view->render('views/home.html');
+    }
+
+    for($i = 1; $i < 10; $i++) {
+      $data->updateLastPosted($i);
     }
   }
 
