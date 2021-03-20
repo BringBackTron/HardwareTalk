@@ -110,7 +110,18 @@ $f3->route('GET /community/@community_id/@post_id', function($f3){
   $community_id = $f3->get("PARAMS.community_id");
   $post_id = $f3->get("PARAMS.post_id");
 
+
   $controller->posts($community_id, $post_id);
+
+});
+
+$f3->route('GET|POST /community/@community_id/submit', function($f3){
+
+  global $controller;
+
+  $community_id = $f3->get("PARAMS.community_id");
+
+  $controller->submit($community_id);
 
 });
 
