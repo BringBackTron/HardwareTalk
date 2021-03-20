@@ -91,32 +91,34 @@
 </header>
 
 <div class="container">
+  <div class="submitButton pt-3 mx-5">
+    <a href="{{@PARAMS.community_id}}/submit">
+      <button class="btn btn-lg btn-block btn-success">Create New Post</button>
+    </a>
+  </div>
   <repeat group="{{ @posts }}" value="{{ @post }}">
-    <div class="post-container border p-2 position-relative">
-      <div class="row post-header">
-        <div class="col">
-          <h4>{{ @post.post_subject }}</h4>
-        </div>
-      </div>
-      <div class="row d-flex post-subject justify-content-around">
-        <div class="col-10">
-          <p class="post-text">
-            {{ @post.post_text }}
-          </p>
+    <div class="post-container card border position-relative">
+      <div class="row no-gutters post-header">
+        <div class="col-md-10">
+          <div class="card-body">
+            <h4 class="card-title">{{ @post.post_subject }}</h4>
+            <p class="card-text">{{ @post.post_text }}</p>
+            <a href="{{@BASE}}/community/{{@post.community_id}}/{{@post.post_id}}" class="stretched-link"></a>
+          </div>
         </div>
         <check if="{{@post.post_type}} == 1">
-          <div class="col-2">
-            <a href=""><img src="{{ @post.post_media }}" class="thumbnail"></a>
+          <div class="col-md-2">
+            <a href=""><img src="{{ @post.post_media }}" class="card-img thumbnail"></a>
           </div>
         </check>
-      </div>
+        </div>
       <hr>
       <div class="row post-info">
-        <div class="col post-time">
-          <div>
+        <div class="col post-time align-self-center ml-3">
+          <span>
             Posted {{ @post.post_creation_date }} Hours Ago
             <!--TODO: Still not working correctly, find new way of implementing-->
-          </div>
+          </span>
         </div>
         <div class="col-2 post-thumbs">
           <div class="btn btn-outline-primary btn-block thumb-button align-self-center">
@@ -157,8 +159,7 @@
           </div>
         </div>
       </div>
-      <a href="{{@BASE}}/community/{{@post.community_id}}/{{@post.post_id}}" class="stretched-link"></a>
-    </div>
+      </div>
   </repeat>
 </div>
 
