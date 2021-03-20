@@ -1,8 +1,6 @@
 <?php
 /*
  * Authors: George McMullen, Shawn Potter
- * TODO: create logout
- * TODO: hide login button if user is logged in
  * TODO: work on feed page
  * TODO: design comments
  * TODO: create comments view for posts (partially done)
@@ -33,6 +31,7 @@ $login = new Login($dbh, $f3);
 $validator = new Validator();
 $community = new Community($dbh, $f3);
 $data = new DataLayer($dbh, $f3);
+$logout = new Logout($f3);
 
 
 // set fat-free debugging
@@ -123,6 +122,11 @@ $f3->route('GET|POST /community/@community_id/submit', function($f3){
 
   $controller->submit($community_id);
 
+});
+
+$f3->route('GET /logout', function($f3){
+  global $logout;
+  $logout->logout($f3);
 });
 
 //run fat free
