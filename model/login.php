@@ -42,7 +42,9 @@ class  Login
     
     //if errors are empty
     if(empty($this->_f3->get('errors'))) {
-      $sql = "SELECT user_id, username, user_password FROM users WHERE user_email = :email;";
+      $sql = "SELECT user_id, username, user_password 
+              FROM users 
+              WHERE user_email = :email;";
       
       //if prepare returns true
       if($statement = $this->_dbh->prepare($sql)){
@@ -77,7 +79,10 @@ class  Login
               echo print_r($_SESSION, true);
               echo "</pre>";
               */
-              $this->_f3->set('success["loggedin"]', "You have been logged in. You will be redirected.");
+              $this->_f3->set(
+                'success["loggedin"]',
+                "You have been logged in. You will be redirected."
+              );
             }
             //else set error of invalid password
             else{
@@ -86,7 +91,10 @@ class  Login
           }
           //else set error of no email found
           else {
-            $this->_f3->set('errors["accountNotFound"]', "No account found with that Email Address");
+            $this->_f3->set(
+              'errors["accountNotFound"]',
+              "No account found with that Email Address"
+            );
           }
         }
         //unset the statement variable inside the class
