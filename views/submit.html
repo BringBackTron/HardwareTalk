@@ -14,10 +14,11 @@ Date:
   <!-- Other Meta Tags -->
   <meta name="description" content="">
   <meta name="author" content="">
+  <link rel="icon" href="../../favicon.ico">
 
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="../stylesheets/submit.css">
+  <link rel="stylesheet" href="../../stylesheets/submit.css">
   <title>Hardware Talk - Submit Post</title>
 </head>
 <body>
@@ -25,7 +26,7 @@ Date:
 <header>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="{{@BASE}}">
-      <img src="../images/logo.png"
+      <img src="../../images/logo.png"
            width="30"
            height="30"
            class="d-inline-block align-top"
@@ -99,15 +100,16 @@ Date:
       <form action="#" method="POST">
         <div class="form-group">
           <label for="postSubject">Post Subject</label><br>
-          <textarea id="postSubject" maxlength="150"></textarea>
+          <textarea id="postSubject" name="postSubject" maxlength="150"></textarea>
         </div>
         <div class="form-group">
           <label for="postText">Post Text</label><br>
-          <textarea id="postText" maxlength="20000"></textarea>
+          <textarea id="postText" name="postText" maxlength="20000"></textarea>
         </div>
         <div class="form-group">
-          <label for="postMedia">Post Media</label><br>
-          <input id="postMedia" type="text">
+          <label for="postMedia">Post Media</label>
+          <em class="text-muted">(optional)</em><br>
+          <input id="postMedia" name="postMedia" type="text" placeholder="Imgur Link">
         </div>
         <div class="form-group">
           <input type="submit" class="btn btn-primary">
