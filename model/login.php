@@ -1,8 +1,8 @@
 <?php
 /*
- * TODO: make inputs sticky
+ * TODO: make username input sticky
  */
-class Login
+class  Login
 {
   private $_dbh;
   private $_f3;
