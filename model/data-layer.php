@@ -105,9 +105,9 @@ class DataLayer
           $result = $statement->fetch();
 
           /* Debug */
-          echo "<pre>";
+          /*echo "<pre>";
           echo print_r($result, true);
-          echo "</pre>";
+          echo "</pre>";*/
 
           return $result;
         } else {
