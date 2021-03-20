@@ -15,6 +15,6 @@ class Logout
   function logout($_f3)
   {
     session_destroy();
-    $this->_f3->reroute("@BASE");
+    $this->_f3->reroute("/");
   }
 }
