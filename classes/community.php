@@ -141,6 +141,9 @@ class Community
       $statement->bindParam(":post_media", $media, PDO::PARAM_STR);
 
       if($statement->execute()) {
+        //update post count in community
+        $this->updatePostCounts($community_id);
+
         //redirect user
 
       } else {
@@ -153,6 +156,34 @@ class Community
     }
 
   
+  }
+
+  /**
+   * Updates the post count in the communities table
+   *
+   * Updates the post count in the communities table by one each time a post is submitted
+   *
+   * @param $community_id integer passes in the id number of the commmunity
+   */
+  function updatePostCounts($community_id)
+  {
+    $sql = "UPDATE communities
+            SET 
+                community_posts = community_posts + 1, 
+                community_last_commenter_id = :user_id
+            WHERE community_id = :community_id";
+    if($statement = $this->_dbh->prepare($sql)) {
+      /* Debug */
+      // echo "statement prepared";
+
+      $statement->bindParam(":community_id", $community_id, PDO::PARAM_INT);
+      $statement->bindParam(":user_id", $_SESSION['user_id'], PDO::PARAM_INT);
+
+      $statement->execute();
+    } else {
+      echo "An Error Occured";
+    }
+
   }
   
   //TODO: write function to add thumbs to post
