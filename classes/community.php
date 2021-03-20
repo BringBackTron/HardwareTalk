@@ -120,23 +120,25 @@ class Community
   }
   
   //TODO: write function for submitting posts
-  function submitPost(){
-    $sql = "INSERT INTO posts(community_id, user_poster_id, post_type, post_subject, post_text) 
-            VALUES (:community_id, :user_poster_id, :post_type, :post_subject, :post_text)";
+  function submitPost($community_id, $subject, $text, $media){
+    $sql = "INSERT INTO posts(community_id, user_poster_id, post_type, post_subject, post_text, post_media) 
+            VALUES (:community_id, :user_poster_id, :post_type, :post_subject, :post_text, :post_media)";
     if($statement = $this->_dbh->prepare($sql)) {
       /* Debug */
       // echo "statement prepared";
 
-      $community_id = "";
-      $post_type = "";
-      $post_subject = "";
-      $post_text = "";
+      if(empty($media)){
+        $post_type = 0;
+      } else {
+        $post_type = 1;
+      }
 
       $statement->bindParam(":community_id", $community_id, PDO::PARAM_INT);
       $statement->bindParam(":user_poster_id", $_SESSION['user_id'], PDO::PARAM_INT);
       $statement->bindParam(":post_type", $post_type, PDO::PARAM_INT);
-      $statement->bindParam(":post_subject", $post_subject, PDO::PARAM_STR);
-      $statement->bindParam(":post_text", $post_text, PDO::PARAM_STR);
+      $statement->bindParam(":post_subject", $subject, PDO::PARAM_STR);
+      $statement->bindParam(":post_text", $text, PDO::PARAM_STR);
+      $statement->bindParam(":post_media", $media, PDO::PARAM_STR);
 
       if($statement->execute()) {
         //redirect user
