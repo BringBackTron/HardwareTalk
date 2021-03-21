@@ -8,6 +8,50 @@ class Community
     $this->_dbh =  $dbh;
     $this->_f3 = $f3;
   }
+  function viewPost($post_id)
+  {
+    $sql = "
+            SELECT p.*, u.username 
+            FROM posts AS p 
+            INNER JOIN users AS u
+            ON (p.user_poster_id = u.user_id)
+            WHERE post_id = :post_id";
+    if($statement = $this->_dbh->prepare($sql)){
+
+      /* Debug */
+      // echo "statement prepared";
+
+      $statement->bindParam(":post_id", $post_id, PDO::PARAM_INT);
+
+      if($statement->execute()){
+
+        /* Debug */
+        // echo "statement executed";
+
+        $result = $statement->fetch();
+      }
+        $this->_f3->set("post", $result);
+    } else {
+      echo "An Error Occured Executing the Statement";
+      /* Debug */
+      /*
+      echo "\nPDOStatement::errorInfo():\n";
+      $arr = $statement->errorInfo();
+      print_r($arr);
+      */
+    }
+
+    /* Currently a Debug statement, change to something else like an error page */
+    /*
+    else {
+      echo "statement failed to prepare";
+    }
+    */
+
+
+
+
+  }
   function viewPosts($community_id)
   {
     $sql = "SELECT * FROM posts WHERE community_id = :community_id ORDER BY post_creation_date DESC ";
@@ -21,7 +65,7 @@ class Community
       // $url = explode('/', $url);
       // $community_id = array_pop($url);
       
-      $statement->bindParam(":community_id", $community_id, PDO::PARAM_STR);
+      $statement->bindParam(":community_id", $community_id, PDO::PARAM_INT);
       
     }
     /* Currently a Debug statement, change to something else like an error page */
@@ -68,10 +112,16 @@ class Community
 
   }
 
-  //TODO: write function to display posts
   function viewComments($community_id, $post_id)
   {
-    $sql = "SELECT * FROM comments WHERE community_id = :community_id AND post_id = :post_id ORDER BY comment_thumbs";
+    $sql = "
+            SELECT c.*, u.username 
+            FROM comments AS c
+            INNER JOIN users AS u
+            ON (c.commenter_id = u.user_id)
+            WHERE community_id = :community_id AND post_id = :post_id 
+            ORDER BY comment_thumbs
+            ";
     if($statement = $this->_dbh->prepare($sql)){
 
       /* Debug */
@@ -92,15 +142,15 @@ class Community
     if($statement->execute()){
 
       /* Debug */
-       echo "<br>statement executed";
+      // echo "statement executed";
 
       $results = $statement->fetchAll();
       $this->_f3->set("comments", $results);
 
       /* Debug */
-      echo "<pre>";
-      echo print_r($results, true);
-      echo "</pre>";
+      // echo "<pre>";
+      // echo print_r($results, true);
+      // echo "</pre>";
     }
     /* Debug */
 
@@ -112,15 +162,44 @@ class Community
 
     /* Debug */
 
-    echo "\n<br>PDOStatement::errorInfo():\n";
-    $arr = $statement->errorInfo();
-    print_r($arr);
+    // echo "\n<br>PDOStatement::errorInfo():\n";
+    // $arr = $statement->errorInfo();
+    // print_r($arr);
 
 
   }
+
+  function submitComment($community_id, $post_id, $text)
+  {
+    $sql = "
+            INSERT INTO comments(post_id, community_id, commenter_id, comment_text)
+            VALUES (:post_id, :community_id, :commenter_id, :comment_text)
+           ";
+    if($statement = $this->_dbh->prepare($sql)) {
+
+      //bind params
+      $statement->bindParam(":post_id", $post_id, PDO::PARAM_INT);
+      $statement->bindParam(":community_id", $community_id, PDO::PARAM_INT);
+      $statement->bindParam(":commenter_id", $_SESSION['user_id'], PDO::PARAM_INT);
+      $statement->bindParam(":comment_text", $text, PDO::PARAM_STR);
+
+      if($statement->execute()) {
+        //update post count on post
+        $this->updateCommentsCount($post_id, $_SESSION['user_id']);
+
+        //redirect user
+
+      } else {
+        echo "An Error Occured during execution.";
+      }
+    } else {
+      echo "An error occured during prepare.";
+    }
+  }
   
   //TODO: write function for submitting posts
-  function submitPost($community_id, $subject, $text, $media){
+  function submitPost($community_id, $subject, $text, $media)
+  {
     $sql = "INSERT INTO posts(community_id, user_poster_id, post_type, post_subject, post_text, post_media) 
             VALUES (:community_id, :user_poster_id, :post_type, :post_subject, :post_text, :post_media)";
     if($statement = $this->_dbh->prepare($sql)) {
@@ -189,6 +268,27 @@ class Community
   //TODO: write function to add thumbs to post
   function addThumbs(){
 
+  }
+
+  private function updateCommentsCount($post_id, $user_id)
+  {
+    $sql = "UPDATE posts
+            SET 
+                post_comments = post_comments + 1, 
+                post_last_commenter_id = :user_id
+            WHERE post_id = :post_id";
+
+    if($statement = $this->_dbh->prepare($sql)) {
+      /* Debug */
+      // echo "statement prepared";
+
+      $statement->bindParam(":post_id", $post_id, PDO::PARAM_INT);
+      $statement->bindParam(":user_id", $user_id, PDO::PARAM_INT);
+
+      $statement->execute();
+    } else {
+      echo "An Error Occured during preperation";
+    }
   }
 
 
