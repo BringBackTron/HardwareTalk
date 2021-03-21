@@ -102,7 +102,7 @@ $f3->route('GET /community/@community_id', function($f3){
 });
 
 // define a dynamic route to each page for posts
-$f3->route('GET /community/@community_id/@post_id', function($f3){
+$f3->route('GET|POST /community/@community_id/@post_id', function($f3){
 
     global $controller;
 
