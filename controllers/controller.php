@@ -111,10 +111,17 @@ class Controller
     global $community;
     global $data;
 
+    if($_SERVER['REQUEST_METHOD'] == 'POST') {
+      $text = trim($_POST['commentSubmit']);
+      $community->submitComment($community_id, $post_id, $text);
+    }
+
     $name = $data->getCommunityName($community_id);
 
     $this->_f3->set("pageTitle", $name);
+    $community->viewPost($post_id);
     $community->viewComments($community_id, $post_id);
+
 
     $view = new Template();
     echo $view->render('views/comments.html');
