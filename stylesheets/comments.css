@@ -1,0 +1,67 @@
+.textarea-container {
+    margin: 0px 50px 0px 50px;
+}
+
+.textarea-button {
+    position:relative;
+    left: 40px;
+    margin: 10px;
+}
+
+textarea {
+    resize: both;
+    max-width: 100%;
+    max-height: 100%;
+    min-width: 400px;
+    min-height: 54px;
+    outline: none;
+}
+
+.comment-every {
+    margin: 0px 50px 10px 50px;
+    max-width: fit-content;
+
+}
+
+.container-entire {
+    border-style: solid;
+    border-color: black;
+    min-width: 400px;
+    position: relative;
+    padding: 10px;
+}
+
+.container-thumbs {
+    float: left;
+    border-style: solid;
+    border-color: transparent;
+    padding: 10px;
+    font-size: 18px;
+    position: relative;
+    margin: 37px 20px -50px 0px;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    top: 50%;
+}
+
+.container-details {
+
+}
+
+.container-info {
+    display: inline;
+    margin: 2px 12px 0px 2px;
+}
+
+.container-info2 {
+    display: inline;
+
+}
+
+.container-comment {
+    display: inline;
+}
+
+.comment-content {
+    font-size: 18px;
+}

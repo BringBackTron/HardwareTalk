@@ -125,5 +125,12 @@ $f3->route('GET|POST /community/@community_id/submit', function($f3){
 
 });
 
+$f3->route('GET /testPost', function($f3){
+
+    $view = new Template();
+    echo $view->render('views/testPost.html');
+
+});
+
 //run fat free
 $f3->run();
