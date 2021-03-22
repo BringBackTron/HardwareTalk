@@ -5,6 +5,7 @@
  * TODO: work on homepage cards
  * TODO: switch login to using username
  * TODO: store user session with the user class (admin are stored with the admin class)
+ * TODO: write function(s) to add thumbs and total them
  */
 
 //The Controller
