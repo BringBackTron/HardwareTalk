@@ -2,9 +2,9 @@
 /*
  * Authors: George McMullen, Shawn Potter
  * TODO: work on feed page
- * TODO: design comments
- * TODO: create comments view for posts (partially done)
- * TODO: create comment submissions
+ * TODO: work on homepage cards
+ * TODO: switch login to using username
+ * TODO: store user session with the user class (admin are stored with the admin class)
  */
 
 //The Controller
