@@ -21,6 +21,9 @@ class Controller
       $data->updateLastPosted($i);
     }
 
+    $communities = $data->populateHomePage();
+    $this->_f3->set("communities", $communities);
+
     $view = new Template();
     echo $view->render('views/home.html');
     /*if($_SESSION['loggedin'] == true) {
