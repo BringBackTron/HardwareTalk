@@ -84,7 +84,8 @@ class DataLayer
    * Returns an array containing the last updated post
    *
    * Returns an array containing the last updated post by retreiving the maximum
-   * post_id from the post table in the database.
+   * post_id from the post table in the database. Helper method for
+   * updateLastPosted
    *
    * @param $community_id integer the id number of the community
    * @return array containing the max value id in the post_id column
@@ -121,5 +122,35 @@ class DataLayer
       echo "An Error Occured While Preparing.";
     }
     return null;
+  }
+
+  function populateHomePage(){
+    $sql = "SELECT c.*, p.post_id, p.post_subject, p.post_media, p.post_type
+            FROM communities c
+            LEFT JOIN posts p 
+            ON c.community_last_post_id = p.post_id";
+
+    if($statement = $this->_dbh->prepare($sql)) {
+      /* Debug */
+      // echo "statement prepared";
+
+      if($statement->execute()) {
+          $results = $statement->fetchAll();
+
+          /* Debug */
+          // echo "<pre>";
+          // echo print_r($results, true);
+          // echo "</pre>";
+
+          return $results;
+      } else{
+        echo "An Error Occured While Executing";
+      }
+    } else {
+      echo "An Error Occured While Preparing.";
+    }
+    return null;
+
+
   }
 }
