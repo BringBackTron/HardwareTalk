@@ -103,9 +103,6 @@
                     <a href="login" class="btn btn-primary my-2">Member Login</a>
                     <a href="register" class="btn btn-secondary my-2">Member Registration</a>
                 </check>
-                <!--<check if="{{ @SESSION.loggedin == true }}">
-                    <button>Logout</button>
-                </check>-->
             </p>
         </div>
     </section>
@@ -113,6 +110,47 @@
     <div class="album py-5 bg-light">
         <div class="container">
             <div class="row">
+                <repeat group="{{@communities}}" value="{{@community}}">
+                    <div class="col-md-4">
+                        <div class="card mb-4 box-shadow">
+                            <div class="container">
+                                <img class="card-img-top gradient"
+                                     alt="Card image cap"
+                                     src="images/communities/{{@community.community_image}}">
+                                <div class="centered disable-select">
+                                    <p>
+                                        <a href="community/{{@community.community_id}}"
+                                           class="community-text">
+                                            {{@community.community_name}}
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="container text-container">
+                                    <a href="community/{{@community.community_id}}/{{@community.post_id}}">
+                                        <check if="{{@community.post_type == 1}}">
+                                            <img class="thumbnail" src="{{@community.post_media}}">
+                                        </check>
+                                        <check if="{{@community.post_type == 0}}">
+                                            <img class="thumbnail" src="images/thumbnails/text.png">
+                                        </check>
+                                        <check if="{{@community.post_id < 1}}">
+                                            <p class="card-text">No Posts Submitted Yet!</p>
+                                        </check>
+                                        <check if="{{@community.post_id > 0}}">
+                                            <p class="card-text">{{@community.post_subject}}</p>
+                                        </check>
+                                    </a>
+                                </div>
+                                <!--<div class="d-flex justify-content-between align-items-center">
+                                    <small class="text-muted disable-select">10 mins ago</small>
+                                </div>-->
+                            </div>
+                        </div>
+                    </div>
+                </repeat>
+                <!--
                 <div class="col-md-4">
                     <div class="card mb-4 box-shadow">
                         <div class="container">
@@ -304,6 +342,7 @@
                         </div>
                     </div>
                 </div>
+                -->
             </div>
         </div>
     </div>
