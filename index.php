@@ -5,7 +5,7 @@
  * TODO: work on homepage cards
  * TODO: switch login to using username
  * TODO: store user session with the user class (admin are stored with the admin class)
- * TODO: write function(s) to add thumbs and total them
+ * TODO: write function to add thumbs
  */
 
 //The Controller
@@ -33,7 +33,13 @@ $validator = new Validator();
 $community = new Community($dbh, $f3);
 $data = new DataLayer($dbh, $f3);
 $logout = new Logout($f3);
+$user = new User($dbh);
 
+
+//runs on all pages
+
+if($_SESSION['loggedin']==true)
+  $user->updateThumbs($_SESSION['user_id']);
 
 // set fat-free debugging
 $f3->set('DEBUG', 3);
@@ -42,7 +48,6 @@ $f3->set('DEBUG', 3);
 $f3->route('GET /', function($f3){
 
     global $controller;
-
     $controller->home();
 
 });
