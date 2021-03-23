@@ -64,7 +64,7 @@ $f3->route('GET /community/@communityID', function($f3){
     $communityID = $f3->get("PARAMS.communityID");
 
     if($communityID <= 0 || $communityID >= 10){
-      $f3->reroute("/");
+        $f3->reroute("/");
     }
 
     $controller->community($communityID);
@@ -81,15 +81,16 @@ $f3->route('GET|POST /community/@communityID/@postID', function($f3){
     $postID = $f3->get("PARAMS.postID");
 
     if($communityID <= 0 || $communityID >= 10){
-      $f3->reroute("/");
+        $f3->reroute("/");
     }
 
 
 
-  $controller->posts($communityID, $postID);
+    $controller->posts($communityID, $postID);
 
 });
 
+// Submit page with function
 $f3->route('GET|POST /community/@communityID/submit', function($f3){
 
     global $controller;
@@ -100,16 +101,10 @@ $f3->route('GET|POST /community/@communityID/submit', function($f3){
 
 });
 
+// Logout page with function
 $f3->route('GET /logout', function($f3){
     global $logout;
     $logout->logout($f3);
-});
-
-$f3->route('GET /testPost', function($f3){
-
-    $view = new Template();
-    echo $view->render('views/testPost.html');
-
 });
 
 //run fat free

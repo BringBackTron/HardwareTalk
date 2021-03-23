@@ -21,6 +21,7 @@
 
 <body>
 
+<!-- Header -->
 <header>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between">
         <a class="navbar-brand" href="{{@BASE}}">
@@ -94,6 +95,7 @@
 
 <main role="main">
 
+    <!-- Jumbotron with community info -->
     <section class="jumbotron text-center">
         <div class="container">
             <h1 class="jumbotron-heading">Communities</h1>
@@ -107,6 +109,7 @@
         </div>
     </section>
 
+    <!-- Repeated communities listed with top post -->
     <div class="album py-5 bg-light">
         <div class="container">
             <div class="row">
@@ -143,212 +146,18 @@
                                         </check>
                                     </a>
                                 </div>
-                                <!--<div class="d-flex justify-content-between align-items-center">
-                                    <small class="text-muted disable-select">10 mins ago</small>
-                                </div>-->
                             </div>
                         </div>
                     </div>
                 </repeat>
-                <!--
-                <div class="col-md-4">
-                    <div class="card mb-4 box-shadow">
-                        <div class="container">
-                            <img class="card-img-top gradient" alt="Card image cap" src="images/communities/img_1.png">
-                            <div class="centered disable-select">
-                                <p>
-                                    <a href="community/1" class="community-text">Gaming</a>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="container text-container">
-                                <a href="testPost"><img class="thumbnail" src="images/thumbnails/xbox.jpg"></a>
-                                <p class="card-text"><a href="testPost">Wow guys look a black Xbox controller.</a></p>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <small class="text-muted disable-select">10 mins ago</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-4 box-shadow">
-                        <div class="container">
-                            <img class="card-img-top gradient" alt="Card image cap" src="images/communities/img_2.png">
-                            <div class="centered disable-select">
-                                <p>
-                                    <a href="community/2" class="community-text">Setups</a>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="container text-container">
-                                <a href=""><img class="thumbnail" src="images/thumbnails/battlestation.jpg"></a>
-                                <p class="card-text"><a href="">Enough RGB lighting to illuminate my empty wallet</a></p>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center card-foot">
-                                <small class="text-muted disable-select">13 hours ago</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-4 box-shadow">
-                        <div class="container">
-                            <img class="card-img-top gradient" alt="Card image cap" src="images/communities/img_3.png">
-                            <div class="centered disable-select">
-                                <p>
-                                    <a class="community-text" href="community/3">CustomPC</a>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="container text-container">
-                                <a href=""><img class="thumbnail" src="images/thumbnails/text.png"></a>
-                                <p class="card-text"><a href="">Radeon 6900XT = Awesome</a></p>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <small class="text-muted disable-select">1 Day ago</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="col-md-4">
-                    <div class="card mb-4 box-shadow">
-                        <div class="container">
-                            <img class="card-img-top gradient" alt="Card image cap" src="images/communities/img_4.png">
-                            <div class="centered disable-select">
-                                <p>
-                                    <a class="community-text" href="community/4">Laptops</a>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="container text-container">
-                                <a href=""><img class="thumbnail" src="images/thumbnails/laptop.jpg"></a>
-                                <p class="card-text"><a href="">Don't @ me unless you had one of these bad bois</a></p>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <small class="text-muted disable-select">10 hours ago</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-4 box-shadow">
-                        <div class="container">
-                            <img class="card-img-top gradient" alt="Card image cap" src="images/communities/img_5.png">
-                            <div class="centered disable-select">
-                                <p>
-                                    <a class="community-text" href="community/5">Phones</a>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="container text-container">
-                                <a href=""><img class="thumbnail" src="images/thumbnails/text.png"></a>
-                                <p class="card-text"><a href="">iPhone 13 Leaks confirmed 100% legit no scam (from Steve Jobs' mouth)</a></p>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <small class="text-muted disable-select">3 hours ago</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-4 box-shadow">
-                        <div class="container">
-                            <img class="card-img-top gradient" alt="Card image cap" src="images/communities/img_6.png">
-                            <div class="centered disable-select">
-                                <p>
-                                    <a class="community-text" href="community/6">Deals</a>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="container text-container">
-                                <a href=""><img class="thumbnail" src="images/thumbnails/link.png"></a>
-                                <p class="card-text"><a href="">PS5 from eBay - Only $10,000 - One left in stock</a></p>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <small class="text-muted disable-select">1 second ago</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="card mb-4 box-shadow">
-                        <div class="container">
-                            <img class="card-img-top gradient" alt="Card image cap" src="images/communities/img_7.png">
-                            <div class="centered disable-select">
-                                <p>
-                                    <a class="community-text" href="community/7">News</a>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="container text-container">
-                                <a href=""><img class="thumbnail" src="images/thumbnails/link.png"></a>
-                                <p class="card-text"><a href="">Elon Musk confirms latest Tesla will make you a sandwich (NOT CLICKBAIT!)</a></p>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <small class="text-muted disable-select">3 mins ago</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-4 box-shadow">
-                        <div class="container">
-                            <img class="card-img-top gradient" alt="Card image cap" src="images/communities/img_8.png">
-                            <div class="centered disable-select">
-                                <p>
-                                    <a class="community-text" href="community/8">Coding</a>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="container text-container">
-                                <a href=""><img class="thumbnail" src="images/thumbnails/link.png"></a>
-                                <p class="card-text"><a href="">Frequently Visited - How to open a ticket with webhostingforstudents.com</a></p>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <small class="text-muted disable-select">2 hours ago</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-4 box-shadow">
-                        <div class="container">
-                            <img class="card-img-top gradient" alt="Card image cap" src="images/communities/img_9.png">
-                            <div class="centered disable-select">
-                                <p>
-                                    <a class="community-text" href="community/9">DIY</a>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="container text-container">
-                                <a href=""><img class="thumbnail" src="images/thumbnails/nerf.jpeg"></a>
-                                <p class="card-text"><a href="">Mod your nerf gun to shoot Airpods into people's ears</a></p>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <small class="text-muted disable-select">9 hours ago</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                -->
             </div>
         </div>
     </div>
 
 </main>
 
+<!-- Back to top button -->
 <footer class="text-muted">
     <div class="container">
         <p class="float-right">
