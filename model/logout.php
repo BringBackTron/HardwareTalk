@@ -31,7 +31,10 @@ class Logout
    */
   public function logout()
   {
+    //destroy the session
     session_destroy();
+
+    //reroute the user
     $this->_f3->reroute("/");
   }
 }

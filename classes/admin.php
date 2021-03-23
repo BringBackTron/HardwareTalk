@@ -25,21 +25,30 @@
      */
     public function deleteComment($commentID, $dbh, $postID)
     {
+      //sql query
       $sql =
         "
           DELETE FROM comments
           WHERE comment_id = :comment_id;
         ";
+
+      //prepare the statement
       if($statement = $dbh->prepare($sql)) {
 
+        //bind the params
         $statement->bindParam(":comment_id", $commentID, PDO::PARAM_INT);
 
+        //execute the statement
         $statement->execute();
       }
+      //call the decrementPostCount
       $this->decrementPostCount($dbh, $postID);
 
     }
+
+
     private function decrementPostCount($dbh, $postID){
+      //sql query
       $sql =
         "
           UPDATE posts
@@ -47,10 +56,13 @@
           WHERE post_id = :post_id;
         ";
 
+      //prepare the statement
       if($statement = $dbh->prepare($sql)) {
 
+        //bind the params
         $statement->bindParam(":post_id", $postID, PDO::PARAM_INT);
 
+        //execute the statement
         $statement->execute();
       }
     }

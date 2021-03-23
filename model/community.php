@@ -109,6 +109,7 @@ class Community
    */
   public function submitPost($communityID, $subject, $text, $media)
   {
+    //sql statement
     $sql = "INSERT INTO posts(community_id, user_poster_id, post_type, post_subject, post_text, post_media) 
             VALUES (:community_id, :user_poster_id, :post_type, :post_subject, :post_text, :post_media)";
     if($statement = $this->_dbh->prepare($sql)) {
@@ -157,6 +158,7 @@ class Community
    */
   public function viewComments($communityID, $postID)
   {
+    //sql statement
     $sql = "
             SELECT c.*, u.username, u.user_ip
             FROM comments AS c
@@ -165,22 +167,28 @@ class Community
             WHERE community_id = :community_id AND post_id = :post_id 
             ORDER BY c.comment_time
             ";
+    //prepare the statement
     if($statement = $this->_dbh->prepare($sql)) {
 
+      //bind the params
       $statement->bindParam(":community_id", $communityID, PDO::PARAM_STR);
       $statement->bindParam(":post_id", $postID, PDO::PARAM_STR);
 
+      //execute the statement
       if($statement->execute()){
 
+        //fetchAll and store in results
         $results = $statement->fetchAll();
+
+        //create a comments variable
         $this->_f3->set("comments", $results);
 
       } else {
-        echo "<br>An Error Occured";
+        echo "An Error Occured";
       }
 
     } else {
-      echo "<br>statement failed to prepare";
+      echo "Statement failed to prepare";
     }
   }
 
@@ -196,6 +204,7 @@ class Community
    */
   public function submitComment($communityID, $postID, $text)
   {
+    //sql statement
     $sql = "
             INSERT INTO comments(post_id, community_id, commenter_id, comment_text)
             VALUES (:post_id, :community_id, :commenter_id, :comment_text)
@@ -208,12 +217,15 @@ class Community
       $statement->bindParam(":commenter_id", $_SESSION['user']->getUserID(), PDO::PARAM_INT);
       $statement->bindParam(":comment_text", $text, PDO::PARAM_STR);
 
+      //execute the statement
       if($statement->execute()) {
+
         //update post count on post
         $this->updateCommentsCount($postID, $_SESSION['user']->getUserID());
 
         //redirect user
         $this->_f3->reroute("community/".$communityID."/".$postID);
+
       } else {
         echo "An Error Occured during execution.";
       }
@@ -232,18 +244,20 @@ class Community
    */
   public function updatePostCounts($communityID)
   {
+    //sql statement
     $sql = "UPDATE communities
             SET 
                 community_posts = community_posts + 1, 
                 community_last_commenter_id = :user_id
             WHERE community_id = :community_id";
+    //prepare the statement
     if($statement = $this->_dbh->prepare($sql)) {
-      /* Debug */
-      // echo "statement prepared";
 
+      //bind the params
       $statement->bindParam(":community_id", $communityID, PDO::PARAM_INT);
       $statement->bindParam(":user_id", $_SESSION['user']->getUserID(), PDO::PARAM_INT);
 
+      //execute the statement
       $statement->execute();
     } else {
       echo "An Error Occured";
@@ -291,27 +305,31 @@ class Community
    */
   private function rerouteToSubmittedPost($communityID, $userID)
   {
+    //sql query
     $sql =
       "
         SELECT MAX(post_id) 
         FROM posts 
         WHERE community_id = :community_id AND user_poster_id = :user_id
       ";
+
+    //prepare the statement
     if($statement = $this->_dbh->prepare($sql)) {
 
+      //bind the params
       $statement->bindParam(":community_id", $communityID, PDO::PARAM_INT);
       $statement->bindParam(":user_id", $userID, PDO::PARAM_INT);
 
+      //execute the statement
       if($statement->execute()) {
+
+        //fetch the result
         $result = $statement->fetch();
 
+        //save the correct array element
         $result = $result['MAX(post_id)'];
 
-        /* Debug */
-        // echo "<pre>";
-        // echo print_r($result, true);
-        // echo "</pre>";
-
+        //reoute the user
         $this->_f3->reroute("community/".$communityID."/".$result);
       }
     }
