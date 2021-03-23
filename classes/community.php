@@ -191,45 +191,36 @@ class Community
             VALUES (:community_id, :user_poster_id, :post_type, :post_subject, :post_text, :post_media)";
     if($statement = $this->_dbh->prepare($sql)) {
 
-      if(preg_match("/(http(s?):)([\w\s-])*\.(?:jpg|gif|png)/i",$media)){
-        $media = "";
+      //check to see if $media is empty and set post_type
+      if(empty($media)){
+        $post_type = 0;
+      } else {
+        $post_type = 1;
+      }
 
-        //check to see if $media is empty and set post_type
-        if(empty($media)){
-          $post_type = 0;
-        } else {
-          $post_type = 1;
-        }
+      //bind params
+      $statement->bindParam(":community_id", $communityID, PDO::PARAM_INT);
+      $statement->bindParam(":user_poster_id", $_SESSION['user']->getUserID(), PDO::PARAM_INT);
+      $statement->bindParam(":post_type", $post_type, PDO::PARAM_INT);
+      $statement->bindParam(":post_subject", $subject, PDO::PARAM_STR);
+      $statement->bindParam(":post_text", $text, PDO::PARAM_STR);
+      $statement->bindParam(":post_media", trim($media), PDO::PARAM_STR);
 
-        //bind params
-        $statement->bindParam(":community_id", $communityID, PDO::PARAM_INT);
-        $statement->bindParam(":user_poster_id", $_SESSION['user']->getUserID(), PDO::PARAM_INT);
-        $statement->bindParam(":post_type", $post_type, PDO::PARAM_INT);
-        $statement->bindParam(":post_subject", $subject, PDO::PARAM_STR);
-        $statement->bindParam(":post_text", $text, PDO::PARAM_STR);
-        $statement->bindParam(":post_media", $media, PDO::PARAM_STR);
+      //if the statement can execute
+      if($statement->execute()) {
 
-        //if the statement can execute
-        if($statement->execute()) {
+        //update post count in community
+        $this->updatePostCounts($communityID);
 
-          //update post count in community
-          $this->updatePostCounts($communityID);
-
-          //redirect user
-          $this->rerouteToSubmittedPost($communityID, $_SESSION['user']->getUserID());
-          return true;
-        } else {
-          echo "An Error Occured.";
-        }
+        //redirect user
+        $this->rerouteToSubmittedPost($communityID, $_SESSION['user']->getUserID());
 
       } else {
-        $this->_f3->set("errors['invalidImage']", "This is not a valid image link");
-        return false;
+        echo "An Error Occured.";
       }
     } else {
       echo "An Error Occured";
     }
-    return false;
   }
 
   /**

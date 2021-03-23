@@ -23,7 +23,7 @@ a:link, .community-text:link {
 
 .container {
     position: relative;
-    text-align: center;
+    /*text-align: center;*/
     padding-left: 0px;
     padding-right: 0px;
 }
