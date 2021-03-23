@@ -186,6 +186,7 @@ class Community
       if($statement->execute()) {
         //update post count on post
         $this->updateCommentsCount($post_id, $_SESSION['user_id']);
+        $this->_f3->reroute("community/".$community_id."/".$post_id);
 
         //redirect user
 
@@ -235,11 +236,7 @@ class Community
     }
   }
 
-  /**
-   * Helper method for submitPost() to reroute the user to the post they just made.
-   * @param $communityId
-   */
-  public function rerouteToSubmittedPost($communityId, $userId)
+  private function rerouteToSubmittedPost($communityId, $userId)
   {
     $sql =
       "
