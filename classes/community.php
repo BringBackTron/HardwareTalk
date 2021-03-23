@@ -60,55 +60,42 @@ class Community
       /* Debug */
       // echo "statement prepared";
       
-      /* old method of getting community id */
-      // $url = $_SERVER['REQUEST_URI'];
-      // $url = explode('/', $url);
-      // $community_id = array_pop($url);
-      
       $statement->bindParam(":community_id", $community_id, PDO::PARAM_INT);
-      
-    }
-    /* Currently a Debug statement, change to something else like an error page */
-    /*
-    else {
-      echo "statement failed to prepare";
-    }
-    */
-    
-    
-    if($statement->execute()){
-      
-      /* Debug */
-      // echo "statement executed";
-      
-      $results = $statement->fetchAll();
-      $now = new DateTime("now");
-      foreach ($results as $key => $item){
-        $time = $results[$key]['post_creation_date'];
-        $time = new DateTime($time, new DateTimeZone('EST'));
-  
+
+      if($statement->execute()){
+
         /* Debug */
-        // var_dump($time);
-        
-        $time = $time->diff($now);
-        $results[$key]['post_creation_date'] = $time->format("%h");
+        // echo "statement executed";
+
+        $results = $statement->fetchAll();
+        $now = new DateTime("now");
+        foreach ($results as $key => $item){
+          $time = $results[$key]['post_creation_date'];
+          $time = new DateTime($time, new DateTimeZone('EST'));
+
+          /* Debug */
+          // var_dump($time);
+
+          $time = $time->diff($now);
+          $results[$key]['post_creation_date'] = $time->format("%h");
+        }
+        $this->_f3->set("posts", $results);
       }
-      $this->_f3->set("posts", $results);
+      /* Debug */
+      /*
+      else {
+        //echo "statement failed";
+      }
+      */
+
+
+      /* Debug */
+      /*
+      echo "\nPDOStatement::errorInfo():\n";
+      $arr = $statement->errorInfo();
+      print_r($arr);
+      */
     }
-    /* Debug */
-    /*
-    else {
-      //echo "statement failed";
-    }
-    */
-  
-  
-    /* Debug */
-    /*
-    echo "\nPDOStatement::errorInfo():\n";
-    $arr = $statement->errorInfo();
-    print_r($arr);
-    */
 
   }
 
