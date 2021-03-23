@@ -14,7 +14,8 @@
 
   <!-- Custom styles for this template -->
   <link rel="stylesheet" type="text/css" href="../../stylesheets/comments.css">
-  <!--<link href="" rel="stylesheet">-->
+
+
 </head>
 
 <body>
@@ -124,16 +125,21 @@
 
 <!--create form to submit new comments-->
 <check if="{{@SESSION.loggedin == true}}">
-<div class="container">
-  <form id="submit" method="post" action="#">
-    <div class="form-group mb-1">
-      <textarea id="commentSubmit" name="commentSubmit"></textarea><br>
-    </div>
-    <div class="form-group text-right">
-      <input type="submit" name="submit" form="submit" value="Submit Comment" class="btn btn-secondary">
-    </div>
-  </form>
-</div>
+  <div class="container pt-3">
+    <form id="submit" method="post" action="#">
+      <div class="form-group mb-1">
+        <textarea id="commentSubmit" name="commentSubmit"></textarea><br>
+      </div>
+      <div class="form-group text-right">
+        <input type="submit" name="submit" form="submit" value="Submit Comment" class="btn btn-secondary"><br>
+        <span class="text-danger">
+        <check if="{{ isset(@errors['emptyComment']) }}">
+          <strong>{{ @errors['emptyComment'] }}</strong>
+        </check>
+      </span>
+      </div>
+    </form>
+  </div>
 </check>
 
 <!--Container for the comments-->
