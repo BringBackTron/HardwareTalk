@@ -33,7 +33,7 @@ class Controller
    * the homepage with information from the database to provide community
    * names and the latest posts.
    */
-  function home()
+  public function home()
   {
     //call global(s)
     global $data;
@@ -56,7 +56,7 @@ class Controller
    * already logged in they are redirected back to the homepage, if the user
    * succesfully logs in they are also redirected back to the homepage.
    */
-  function login()
+  public function login()
   {
     //call global(s)
     global $login;
@@ -83,7 +83,7 @@ class Controller
    * Register function to display register.html on the "register" route.
    * Gets information from the post data to register the user on the database.
    */
-  function register()
+  public function register()
   {
     //call global(s)
     global $register;
@@ -107,7 +107,7 @@ class Controller
    *
    * @param $communityID integer id of the community
    */
-  function community($communityID)
+  public function community($communityID)
   {
     //call global(s)
     global $community;
@@ -136,7 +136,7 @@ class Controller
    * @param $communityID integer id of the community
    * @param $postID integer id of the post
    */
-  function posts($communityID, $postID)
+  public function posts($communityID, $postID)
   {
     //call global(s)
     global $community;
@@ -177,7 +177,7 @@ class Controller
    *
    * @param $communityID integer id of the community
    */
-  function submit($communityID)
+  public function submit($communityID)
   {
     //call global(s)
     global $community;

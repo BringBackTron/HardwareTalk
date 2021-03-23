@@ -12,7 +12,8 @@
    * @author Shawn Potter
    * @version 1.0
    */
-  class Admin extends User{
+  class Admin extends User
+  {
 
     /**
      * Runs a sql query to delete a single comment
@@ -47,7 +48,8 @@
     }
 
 
-    private function decrementPostCount($dbh, $postID){
+    private function decrementPostCount($dbh, $postID)
+    {
       //sql query
       $sql =
         "
