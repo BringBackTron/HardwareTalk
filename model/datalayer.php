@@ -15,9 +15,18 @@ class DataLayer
   }
 
 
-  function getCommunityName($id)
+  /**
+   * Gets the names of the communities
+   *
+   * Gets the names of the communities to use on the page titles of the
+   * dynamic pages
+   *
+   * @param $communityID integer id of the community
+   * @return string
+   */
+  function getCommunityName($communityID)
   {
-    switch ($id){
+    switch ($communityID){
       case 1:
         return "Gaming";
       case 2:
@@ -124,6 +133,14 @@ class DataLayer
     return null;
   }
 
+  /**
+   * Populates the homepage's cards
+   *
+   * Populates the homepage's cards with the community information and
+   * the lastest posts inside that community.
+   *
+   * @return null if the sql query fails
+   */
   function populateHomePage(){
     $sql = "SELECT c.*, p.post_id, p.post_subject, p.post_media, p.post_type
             FROM communities c

@@ -4,7 +4,9 @@
  * TODO: work on feed page
  * TODO: work on homepage cards
  * TODO: switch login to using username
- * TODO: store user session with the user class (admin are stored with the admin class)
+ *
+ * TODO: finish writing PHPdocs
+ * TODO: get rid of deprecated files and code
  */
 
 //The Controller
@@ -26,7 +28,7 @@ session_start();
 $f3 = Base::instance();
 
 //instanitate classes
-$controller = new Controller($f3);
+$controller = new Controller($f3, $dbh);
 $register = new Register($dbh, $f3);
 $login = new Login($dbh, $f3);
 $validator = new Validator();

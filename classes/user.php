@@ -22,7 +22,11 @@
     }
 
     /**
-     * @return mixed
+     * Returns the User's ID number
+     *
+     * Returns the User's ID number from the $_userID variable
+     *
+     * @return integer for user ID
      */
     public function getUserID()
     {
@@ -30,15 +34,11 @@
     }
 
     /**
-     * @param mixed $userID
-     */
-    public function setUserID($userID)
-    {
-      $this -> _userID = $userID;
-    }
-
-    /**
-     * @return mixed
+     * Returns the username
+     *
+     * Returns the username from the $_username variable
+     *
+     * @return string the user's name
      */
     public function getUsername()
     {
@@ -46,15 +46,11 @@
     }
 
     /**
-     * @param mixed $username
-     */
-    public function setUsername($username)
-    {
-      $this -> _username = $username;
-    }
-
-    /**
-     * @return mixed
+     * Returns int value of user's role
+     *
+     * Returns int value of the user's role from the $_userRole variable
+     *
+     * @return integer of $_userRole
      */
     public function getUserRole()
     {
@@ -62,30 +58,14 @@
     }
 
     /**
-     * @param mixed $userRole
-     */
-    public function setUserRole($userRole)
-    {
-      $this -> _userRole = $userRole;
-    }
-
-    /**
-     * @return mixed
+     * Returns User's IP address
+     *
+     * Returns User's IP Address hashed with md5. This will only be seen by admins.
+     *
+     * @return string md5 hashed string
      */
     public function getUserIP()
     {
       return $this -> _userIP;
     }
-
-    /**
-     * @param mixed $userIP
-     */
-    public function setUserIP($userIP)
-    {
-      $this -> _userIP = $userIP;
-    }
-
-
-
-
   }

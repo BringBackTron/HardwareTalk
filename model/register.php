@@ -3,11 +3,21 @@
 class Register{
   private $_dbh;
   private $_f3;
+
+  /**
+   * Register constructor.
+   * @param $dbh object database object
+   * @param $f3 object fat-free object
+   */
   function __construct($dbh, $f3)
   {
     $this->_dbh = $dbh;
     $this->_f3 = $f3;
   }
+
+  /**
+   * @return bool true if the user was registered, false if not
+   */
   function registerUser()
   {
     //assign globals
@@ -100,6 +110,7 @@ class Register{
   }
   
   /**
+   * Get's the IP address of the user attempting to reigster
    *
    * Function original posted at: https://stackoverflow.com/a/2031935
    * @return string

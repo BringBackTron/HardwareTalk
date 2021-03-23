@@ -3,11 +3,27 @@ class Community
 {
   private $_dbh;
   private $_f3;
+
+  /**
+   * Community constructor.
+   *
+   * @param $dbh object database object
+   * @param $f3 object fat-free object
+   */
   function __construct($dbh, $f3)
   {
     $this->_dbh =  $dbh;
     $this->_f3 = $f3;
   }
+
+  /**
+   * Loads the specified post
+   *
+   * Loads the specified post so that the post can be viewed with the comments
+   * on the comments view
+   *
+   * @param $postID integer the id for the post
+   */
   function viewPost($postID)
   {
     $sql = "
@@ -40,18 +56,18 @@ class Community
       print_r($arr);
       */
     }
-
-    /* Currently a Debug statement, change to something else like an error page */
-    /*
-    else {
-      echo "statement failed to prepare";
-    }
-    */
-
-
-
-
   }
+
+  /**
+   * Grabs all posts in a specified community
+   *
+   * Grabs all posts in a specified community by passing in the
+   * community id and executing a sql query. The results are stored
+   * and set in a fat-free variable to be displayed on the
+   * community view.
+   *
+   * @param $communityID integer community id number
+   */
   function viewPosts($communityID)
   {
     $sql = "SELECT * FROM posts WHERE community_id = :community_id ORDER BY post_creation_date DESC ";
@@ -64,41 +80,24 @@ class Community
 
       if($statement->execute()){
 
-        /* Debug */
-        // echo "statement executed";
-
         $results = $statement->fetchAll();
-        $now = new DateTime("now");
-        foreach ($results as $key => $item){
-          $time = $results[$key]['post_creation_date'];
-          $time = new DateTime($time);
 
-          /* Debug */
-          // var_dump($time);
-
-          $time = $now->diff($time);
-          $results[$key]['post_creation_date'] = $time->s;
-        }
         $this->_f3->set("posts", $results);
       }
-      /* Debug */
-      /*
-      else {
-        //echo "statement failed";
-      }
-      */
-
-
-      /* Debug */
-      /*
-      echo "\nPDOStatement::errorInfo():\n";
-      $arr = $statement->errorInfo();
-      print_r($arr);
-      */
     }
-
   }
 
+
+  /**
+   * Gets all comments associated with a post
+   *
+   * Gets all comments associated with a post by passing in the community
+   * id and executing a sql query. The results are stored and set in a
+   * fat-free variable to be displayed on the comments view
+   *
+   * @param $communityID integer id number of the community
+   * @param $postID integer id number of the post
+   */
   function viewComments($communityID, $postID)
   {
     $sql = "
@@ -109,53 +108,35 @@ class Community
             WHERE community_id = :community_id AND post_id = :post_id 
             ORDER BY comment_thumbs
             ";
-    if($statement = $this->_dbh->prepare($sql)){
-
-      /* Debug */
-      // echo "statement prepared";
+    if($statement = $this->_dbh->prepare($sql)) {
 
       $statement->bindParam(":community_id", $communityID, PDO::PARAM_STR);
       $statement->bindParam(":post_id", $postID, PDO::PARAM_STR);
 
-    }
-    /* Currently a Debug statement, change to something else like an error page */
+      if($statement->execute()){
 
-    else {
+        $results = $statement->fetchAll();
+        $this->_f3->set("comments", $results);
+
+      } else {
+        echo "<br>An Error Occured";
+      }
+
+    } else {
       echo "<br>statement failed to prepare";
     }
-
-
-
-    if($statement->execute()){
-
-      /* Debug */
-      // echo "statement executed";
-
-      $results = $statement->fetchAll();
-      $this->_f3->set("comments", $results);
-
-      /* Debug */
-       echo "<pre>";
-       echo print_r($results, true);
-       echo "</pre>";
-    }
-    /* Debug */
-
-    else {
-      echo "<br>An Error Occured";
-    }
-
-
-
-    /* Debug */
-
-    // echo "\n<br>PDOStatement::errorInfo():\n";
-    // $arr = $statement->errorInfo();
-    // print_r($arr);
-
-
   }
 
+  /**
+   * Submits a comment on a post
+   *
+   * Submits a comment on a post executing a sql statement to insert
+   * a new row into the comments table on the database.
+   *
+   * @param $communityID integer id of the community
+   * @param $postID integer id of the post
+   * @param $text string submitted text from textarea
+   */
   function submitComment($communityID, $postID, $text)
   {
     $sql = "
@@ -173,10 +154,9 @@ class Community
       if($statement->execute()) {
         //update post count on post
         $this->updateCommentsCount($postID, $_SESSION['user']->getUserID());
-        $this->_f3->reroute("community/".$communityID."/".$postID);
 
         //redirect user
-
+        $this->_f3->reroute("community/".$communityID."/".$postID);
       } else {
         echo "An Error Occured during execution.";
       }
@@ -185,20 +165,32 @@ class Community
     }
   }
 
+  /**
+   * Submits a post to a community
+   *
+   * Submits a post to a community by executing a sql statement that inserts
+   * a new row into the posts table in the database. If media is empty
+   * post_type is set to 0.
+   *
+   * @param $communityID integer id of the community
+   * @param $subject string subject title of the post
+   * @param $text string text of the post
+   * @param $media string url link for the media (optional)
+   */
   function submitPost($communityID, $subject, $text, $media)
   {
     $sql = "INSERT INTO posts(community_id, user_poster_id, post_type, post_subject, post_text, post_media) 
             VALUES (:community_id, :user_poster_id, :post_type, :post_subject, :post_text, :post_media)";
     if($statement = $this->_dbh->prepare($sql)) {
-      /* Debug */
-      // echo "statement prepared";
 
+      //check to see if $media is empty and set post_type
       if(empty($media)){
         $post_type = 0;
       } else {
         $post_type = 1;
       }
 
+      //bind params
       $statement->bindParam(":community_id", $communityID, PDO::PARAM_INT);
       $statement->bindParam(":user_poster_id", $_SESSION['user']->getUserID(), PDO::PARAM_INT);
       $statement->bindParam(":post_type", $post_type, PDO::PARAM_INT);
@@ -206,7 +198,9 @@ class Community
       $statement->bindParam(":post_text", $text, PDO::PARAM_STR);
       $statement->bindParam(":post_media", $media, PDO::PARAM_STR);
 
+      //if the statement can execute
       if($statement->execute()) {
+
         //update post count in community
         $this->updatePostCounts($communityID);
 
@@ -216,13 +210,17 @@ class Community
       } else {
         echo "An Error Occured.";
       }
-
-
     } else {
       echo "An Error Occured";
     }
   }
 
+  /**
+   * Reroutes the user to the post they just summitted
+   *
+   * @param $communityID integer id of the community
+   * @param $userID integer id of the user
+   */
   private function rerouteToSubmittedPost($communityID, $userID)
   {
     $sql =
@@ -257,7 +255,8 @@ class Community
   /**
    * Updates the post count in the communities table
    *
-   * Updates the post count in the communities table by one each time a post is submitted
+   * Updates the post count in the communities table by one each time a post
+   * is submitted
    *
    * @param $communityID integer passes in the id number of the commmunity
    */
@@ -281,25 +280,33 @@ class Community
     }
 
   }
-  
-  //TODO: write function to add thumbs to post
-  //function addThumbs(){}
 
+  /**
+   * Updates the number of comments
+   *
+   * Updates the number of comments on the posts table in the database and
+   * records who the last user to comment was.
+   *
+   * @param $postID integer id of the post
+   * @param $userID integer id of the last commenter
+   */
   private function updateCommentsCount($postID, $userID)
   {
+    //sql query
     $sql = "UPDATE posts
             SET 
                 post_comments = post_comments + 1, 
                 post_last_commenter_id = :user_id
             WHERE post_id = :post_id";
 
+    //prepare the statement
     if($statement = $this->_dbh->prepare($sql)) {
-      /* Debug */
-      // echo "statement prepared";
 
+      //bind the params
       $statement->bindParam(":post_id", $postID, PDO::PARAM_INT);
       $statement->bindParam(":user_id", $userID, PDO::PARAM_INT);
 
+      //execute the statement
       $statement->execute();
     } else {
       echo "An Error Occured during preperation";

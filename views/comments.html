@@ -129,8 +129,14 @@
           {{ @comment.username }}
           <check if="{{@SESSION.user instanceof Admin}}">
             <strong>({{@comment.user_ip}})</strong>
-            <form id="deleteComment" method="POST" action="{{@SESSION.user->deleteComment()}}">
-              <input type="submit" form="deleteComment" class="btn btn-danger" value="Delete">
+            <form id="deleteComment" method="POST" action="#">
+              <button type="submit"
+                      name="delete"
+                      form="deleteComment"
+                      class="btn btn-danger"
+                      value="{{@comment.comment_id}}">
+                Delete
+              </button>
             </form>
           </check>
         </span>

@@ -7,12 +7,21 @@ class  Login
   private $_dbh;
   private $_f3;
 
+  /**
+   * Login constructor.
+   * @param $dbh object database object
+   * @param $f3 object fat-free object
+   */
   function __construct($dbh, $f3)
   {
     $this->_dbh = $dbh;
     $this->_f3 = $f3;
   }
 
+  /**
+   * Logs in the user
+   * TODO: finish explanation of function
+   */
   function logInUser()
   {
     //globals
