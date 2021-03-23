@@ -1,6 +1,19 @@
 <?php
 
-class Register{
+/**
+ * Class Register is the class that controls the registration process
+ *
+ * Class Register is the class that controls the registration process by
+ * retreiving the user's submitted information on the registration form and
+ * uploading it to the SQL database if the information is valid
+ *
+ * @author George McMullen
+ * @author Shawn Potter
+ * @version 1.0
+ */
+
+class Register
+{
   private $_dbh;
   private $_f3;
 
@@ -16,6 +29,12 @@ class Register{
   }
 
   /**
+   * The registerUser function adds a user to the database
+   *
+   * The registerUser function adds a user to the database by using a SQL query
+   * to insert the submitted values into the database. It also uses the validator
+   * to make sure that the inputs are valid.
+   *
    * @return bool true if the user was registered, false if not
    */
   function registerUser()
@@ -105,8 +124,13 @@ class Register{
     if(empty($this->_f3->get('errors'))){
       // echo '<script>alert("statement executed")</script>';
       $statement->execute();
+      return true;
+    } else{
+      //sticky form
+      $this->_f3->set("username", isset($username) ? $username : "");
+      $this->_f3->set("email", isset($email) ? $email : "");
+      return false;
     }
-    return true;
   }
   
   /**

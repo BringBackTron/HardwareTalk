@@ -1,4 +1,15 @@
 <?php
+
+/**
+ * Class Logout logs the user out
+ *
+ * Class Logout logs the user out and then redirects them using fat-free
+ * back to the homepage.
+ *
+ * @author George McMullen
+ * @author Shawn Potter
+ * @version 1.0
+ */
 class Logout
 {
   private $_f3;

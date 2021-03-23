@@ -1,4 +1,17 @@
 <?php
+
+  /**
+   * Class User is a class for storing user relevant data
+   *
+   * Class User is a class for storing user relevant data. It stores the user's
+   * id number, username, userRole, and hashed IP address, which is then stored
+   * in the SESSION so it can be called in the views and other classes using
+   * the class get functions.
+   *
+   * @author George McMullen
+   * @author Shawn Potter
+   * @version 1.0
+   */
   class User
   {
     private $_userID;

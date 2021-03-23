@@ -1,15 +1,7 @@
 <?php
 /*
  * Authors: George McMullen, Shawn Potter
- * TODO: work on feed page
- * TODO: work on homepage cards
- * TODO: switch login to using username
- *
- * TODO: finish writing PHPdocs
- * TODO: get rid of deprecated files and code
  */
-
-//The Controller
 
 //turn on error reporting
 ini_set('display_startup_errors', 1);

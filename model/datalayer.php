@@ -1,4 +1,15 @@
 <?php
+
+/**
+ * Class Datalayer uses functions to help the website display
+ *
+ * Class DataLayer contains various functions to present aid in the display
+ * of the website.
+ *
+ * @author George McMullen
+ * @author Shawn Potter
+ * @version 1.0
+ */
 class DataLayer
 {
   private $_f3;

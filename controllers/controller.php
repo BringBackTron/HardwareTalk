@@ -1,4 +1,15 @@
 <?php
+
+/**
+ * Class Controller
+ *
+ * Class Controller contains functions that handle the rendering of the views
+ * inside the fat-free framework. Some functions also handle post data.
+ *
+ * @author George McMullen
+ * @author Shawn Potter
+ * @version 1.0
+ */
 class Controller
 {
   private $_f3;
@@ -134,12 +145,16 @@ class Controller
 
     if($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['submit'] == 'Submit Comment') {
       $text = trim($_POST['commentSubmit']);
-      $community->submitComment($communityID, $postID, $text);
+      if(empty($text)) {
+        $this->_f3->set('errors["emptyComment"]', "Comment can not be empty");
+      } else {
+        $community -> submitComment($communityID, $postID, $text);
+      }
     }
 
     //admin control
     if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete'])){
-      $_SESSION['user']->deleteComment(intval($_POST['delete']), $this->_dbh);
+      $_SESSION['user']->deleteComment(intval($_POST['delete']), $this->_dbh, $postID);
     }
 
     $name = $data->getCommunityName($communityID);

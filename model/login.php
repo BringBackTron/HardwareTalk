@@ -1,7 +1,19 @@
 <?php
-/*
- * TODO: make username input sticky
+
+/**
+ * Class Login controls the process of logging in the user.
+ *
+ * Class Login controls the process of logging in the user. Class is
+ * instantiated with the database and fat-free object. Validates user
+ * inputs into the login in form and checks them against the database
+ * information by using the email as the key. Then checks the input
+ * password against the stored hashed password.
+ *
+ * @author George McMullen
+ * @author Shawn Potter
+ * @version 1.0
  */
+
 class  Login
 {
   private $_dbh;
@@ -20,7 +32,11 @@ class  Login
 
   /**
    * Logs in the user
-   * TODO: finish explanation of function
+   *
+   * Logs in the user by taking what they entered into the form and checking
+   * it against the information in the database. Validates that the inputs
+   * are allowed and checks the input password against the stored hashed
+   * password
    */
   function logInUser()
   {

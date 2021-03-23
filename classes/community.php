@@ -1,4 +1,12 @@
 <?php
+
+/**
+ * Class Community
+ *
+ * @author George McMullen
+ * @author Shawn Potter
+ * @version 1.0
+ */
 class Community
 {
   private $_dbh;

@@ -97,23 +97,43 @@ TODO: make form sticky
     <div class="row-cols-1 w-50 m-auto">
       <div class="col form-group">
         <label for="username">Username</label>
-        <input type="text" class="form-control" id="username" name="username">
-        <span class="invalidInput"></span>
+        <input type="text" class="form-control" id="username" name="username" value="{{@username}}">
+        <span class="invalidInput text-danger">
+          <check if="{{ isset(@errors['registerName']) }}">
+            {{ @errors['registerName'] }}
+          </check>
+        </span>
       </div>
       <div class="col form-group">
         <label for="email">Email Address</label>
-        <input type="text" class="form-control" id="email" name="email">
-        <span class="invalidInput"></span>
+        <input type="text" class="form-control" id="email" name="email" value="{{@email}}">
+        <span class="invalidInput text-danger">
+          <span class="invalidInput text-danger">
+          <check if="{{ isset(@errors['registerEmail']) }}">
+            {{ @errors['registerEmail'] }}
+          </check>
+        </span>
+        </span>
       </div>
       <div class="col form-group">
         <label for="password">Password</label>
         <input type="password" class="form-control" id="password" name="password">
-        <span class="invalidInput"></span>
+        <span class="invalidInput text-danger">
+          <span class="invalidInput text-danger">
+          <check if="{{ isset(@errors['registerPass']) }}">
+            {{ @errors['registerName'] }}
+          </check>
+        </span>
+        </span>
       </div>
       <div class="col form-group">
         <label for="confirmPassword">Confirm Password</label>
         <input type="password" class="form-control" id="confirmPassword" name="confirmPassword">
-        <span class="invalidInput"></span>
+        <span class="invalidInput text-danger">
+          <check if="{{ isset(@errors['registerConfirmPass']) }}">
+            {{ @errors['registerConfirmPass'] }}
+          </check>
+        </span>
       </div>
       <div class="col form-group">
         <button class="btn btn-primary" type="submit">Submit</button>

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-  <link rel="icon" href="../favicon.ico">
+  <link rel="icon" href="../../favicon.ico">
 
   <title>Hardware Talk - {{@pageTitle}}</title>
 
@@ -114,7 +114,12 @@
       <textarea id="commentSubmit" name="commentSubmit"></textarea><br>
     </div>
     <div class="form-group text-right">
-      <input type="submit" name="submit" form="submit" value="Submit Comment" class="btn btn-secondary">
+      <input type="submit" name="submit" form="submit" value="Submit Comment" class="btn btn-secondary"><br>
+      <span class="text-danger">
+        <check if="{{ isset(@errors['emptyComment']) }}">
+          <strong>{{ @errors['emptyComment'] }}</strong>
+        </check>
+      </span>
     </div>
   </form>
 </div>
