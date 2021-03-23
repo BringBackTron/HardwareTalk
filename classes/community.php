@@ -196,8 +196,7 @@ class Community
       echo "An error occured during prepare.";
     }
   }
-  
-  //TODO: write function for submitting posts
+
   function submitPost($community_id, $subject, $text, $media)
   {
     $sql = "INSERT INTO posts(community_id, user_poster_id, post_type, post_subject, post_text, post_media) 
@@ -224,6 +223,7 @@ class Community
         $this->updatePostCounts($community_id);
 
         //redirect user
+        $this->rerouteToSubmittedPost($community_id, $_SESSION['user_id']);
 
       } else {
         echo "An Error Occured.";
@@ -233,9 +233,42 @@ class Community
     } else {
       echo "An Error Occured";
     }
-
-  
   }
+
+  /**
+   * Helper method for submitPost() to reroute the user to the post they just made.
+   * @param $communityId
+   */
+  public function rerouteToSubmittedPost($communityId, $userId)
+  {
+    $sql =
+      "
+        SELECT MAX(post_id) 
+        FROM posts 
+        WHERE community_id = :community_id AND user_poster_id = :user_id
+      ";
+    if($statement = $this->_dbh->prepare($sql)) {
+
+      $statement->bindParam(":community_id", $communityId, PDO::PARAM_INT);
+      $statement->bindParam(":user_id", $_SESSION['user_id'], PDO::PARAM_INT);
+
+      if($statement->execute()) {
+        $result = $statement->fetch();
+
+        $result = $result['MAX(post_id)'];
+
+        /* Debug */
+        // echo "<pre>";
+        // echo print_r($result, true);
+        // echo "</pre>";
+
+        $this->_f3->reroute("community/".$communityId."/".$result);
+      }
+    }
+
+
+  }
+
 
   /**
    * Updates the post count in the communities table
@@ -290,6 +323,5 @@ class Community
       echo "An Error Occured during preperation";
     }
   }
-
 
 }
