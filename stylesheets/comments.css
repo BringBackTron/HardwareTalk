@@ -94,3 +94,8 @@ textarea {
 .comment-content {
     font-size: 18px;
 }
+
+.card-img-bottom {
+    max-width: 50%;
+    margin:auto;
+}
