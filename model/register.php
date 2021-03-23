@@ -22,7 +22,7 @@ class Register
    * @param $dbh object database object
    * @param $f3 object fat-free object
    */
-  function __construct($dbh, $f3)
+  public function __construct($dbh, $f3)
   {
     $this->_dbh = $dbh;
     $this->_f3 = $f3;

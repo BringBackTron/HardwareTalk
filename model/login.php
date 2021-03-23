@@ -38,7 +38,7 @@ class  Login
    * are allowed and checks the input password against the stored hashed
    * password
    */
-  function logInUser()
+  public function logInUser()
   {
     //globals
     global $validator;

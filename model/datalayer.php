@@ -19,7 +19,7 @@ class DataLayer
    * DataLayer constructor.
    * @param $f3 object fat free object
    */
-  function __construct($dbh, $f3)
+  public function __construct($dbh, $f3)
   {
     $this -> _dbh = $dbh;
     $this -> _f3 = $f3;
@@ -35,7 +35,7 @@ class DataLayer
    * @param $communityID integer id of the community
    * @return string
    */
-  function getCommunityName($communityID)
+  public function getCommunityName($communityID)
   {
     switch ($communityID){
       case 1:
@@ -70,7 +70,7 @@ class DataLayer
    *
    * @param $communityID integer ID number of the community
    */
-  function updateLastPosted($communityID)
+  public function updateLastPosted($communityID)
   {
     //get and assign last posted
     $lastPost = $this->getLastPosted($communityID);
@@ -110,7 +110,7 @@ class DataLayer
    * @param $communityID integer the id number of the community
    * @return array containing the max value id in the post_id column
    */
-  function getLastPosted($communityID)
+  public function getLastPosted($communityID)
   {
     //get latest post_id
     $sql = "SELECT MAX(post_id) FROM posts WHERE community_id = :community_id";
@@ -152,7 +152,7 @@ class DataLayer
    *
    * @return null if the sql query fails
    */
-  function populateHomePage(){
+  public function populateHomePage(){
     $sql = "SELECT c.*, p.post_id, p.post_subject, p.post_media, p.post_type
             FROM communities c
             LEFT JOIN posts p 

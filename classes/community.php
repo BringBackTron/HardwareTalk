@@ -18,7 +18,7 @@ class Community
    * @param $dbh object database object
    * @param $f3 object fat-free object
    */
-  function __construct($dbh, $f3)
+  public function __construct($dbh, $f3)
   {
     $this->_dbh =  $dbh;
     $this->_f3 = $f3;
@@ -32,7 +32,7 @@ class Community
    *
    * @param $postID integer the id for the post
    */
-  function viewPost($postID)
+  public function viewPost($postID)
   {
     $sql = "
             SELECT p.*, u.username 
@@ -76,7 +76,7 @@ class Community
    *
    * @param $communityID integer community id number
    */
-  function viewPosts($communityID)
+  public function viewPosts($communityID)
   {
     $sql = "SELECT * FROM posts WHERE community_id = :community_id ORDER BY post_creation_date DESC ";
     if($statement = $this->_dbh->prepare($sql)){
@@ -107,7 +107,7 @@ class Community
    * @param $text string text of the post
    * @param $media string url link for the media (optional)
    */
-  function submitPost($communityID, $subject, $text, $media)
+  public function submitPost($communityID, $subject, $text, $media)
   {
     $sql = "INSERT INTO posts(community_id, user_poster_id, post_type, post_subject, post_text, post_media) 
             VALUES (:community_id, :user_poster_id, :post_type, :post_subject, :post_text, :post_media)";
@@ -155,7 +155,7 @@ class Community
    * @param $communityID integer id number of the community
    * @param $postID integer id number of the post
    */
-  function viewComments($communityID, $postID)
+  public function viewComments($communityID, $postID)
   {
     $sql = "
             SELECT c.*, u.username, u.user_ip
@@ -194,7 +194,7 @@ class Community
    * @param $postID integer id of the post
    * @param $text string submitted text from textarea
    */
-  function submitComment($communityID, $postID, $text)
+  public function submitComment($communityID, $postID, $text)
   {
     $sql = "
             INSERT INTO comments(post_id, community_id, commenter_id, comment_text)
@@ -230,7 +230,7 @@ class Community
    *
    * @param $communityID integer passes in the id number of the commmunity
    */
-  function updatePostCounts($communityID)
+  public function updatePostCounts($communityID)
   {
     $sql = "UPDATE communities
             SET 

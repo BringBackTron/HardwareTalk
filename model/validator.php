@@ -22,7 +22,7 @@ class Validator
    * @param $confirmPass string confirmPassword input from form
    * @return bool true if the two input fields are equal, else false
    */
-  function validPassword($pass, $confirmPass)
+  public function validPassword($pass, $confirmPass)
   {
     //if the two passwords match then return true
     return $pass == $confirmPass;
@@ -39,7 +39,7 @@ class Validator
    * @param $email string email input from the register form
    * @return bool true if the email is valid, else false
    */
-  function validEmail($email) {
+  public function validEmail($email) {
     //validate email using filter_var
     if(filter_var($email, FILTER_VALIDATE_EMAIL)) {
       return true;
