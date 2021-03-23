@@ -71,13 +71,13 @@ class Community
         $now = new DateTime("now");
         foreach ($results as $key => $item){
           $time = $results[$key]['post_creation_date'];
-          $time = new DateTime($time, new DateTimeZone('EST'));
+          $time = new DateTime($time);
 
           /* Debug */
           // var_dump($time);
 
-          $time = $time->diff($now);
-          $results[$key]['post_creation_date'] = $time->format("%h");
+          $time = $now->diff($time);
+          $results[$key]['post_creation_date'] = $time->s;
         }
         $this->_f3->set("posts", $results);
       }
@@ -102,7 +102,7 @@ class Community
   function viewComments($communityID, $postID)
   {
     $sql = "
-            SELECT c.*, u.username 
+            SELECT c.*, u.username, u.user_ip
             FROM comments AS c
             INNER JOIN users AS u
             ON (c.commenter_id = u.user_id)
@@ -135,9 +135,9 @@ class Community
       $this->_f3->set("comments", $results);
 
       /* Debug */
-      // echo "<pre>";
-      // echo print_r($results, true);
-      // echo "</pre>";
+       echo "<pre>";
+       echo print_r($results, true);
+       echo "</pre>";
     }
     /* Debug */
 
@@ -167,12 +167,12 @@ class Community
       //bind params
       $statement->bindParam(":post_id", $postID, PDO::PARAM_INT);
       $statement->bindParam(":community_id", $communityID, PDO::PARAM_INT);
-      $statement->bindParam(":commenter_id", $_SESSION['user_id'], PDO::PARAM_INT);
+      $statement->bindParam(":commenter_id", $_SESSION['user']->getUserID(), PDO::PARAM_INT);
       $statement->bindParam(":comment_text", $text, PDO::PARAM_STR);
 
       if($statement->execute()) {
         //update post count on post
-        $this->updateCommentsCount($postID, $_SESSION['user_id']);
+        $this->updateCommentsCount($postID, $_SESSION['user']->getUserID());
         $this->_f3->reroute("community/".$communityID."/".$postID);
 
         //redirect user
@@ -200,7 +200,7 @@ class Community
       }
 
       $statement->bindParam(":community_id", $communityID, PDO::PARAM_INT);
-      $statement->bindParam(":user_poster_id", $_SESSION['user_id'], PDO::PARAM_INT);
+      $statement->bindParam(":user_poster_id", $_SESSION['user']->getUserID(), PDO::PARAM_INT);
       $statement->bindParam(":post_type", $post_type, PDO::PARAM_INT);
       $statement->bindParam(":post_subject", $subject, PDO::PARAM_STR);
       $statement->bindParam(":post_text", $text, PDO::PARAM_STR);
@@ -211,7 +211,7 @@ class Community
         $this->updatePostCounts($communityID);
 
         //redirect user
-        $this->rerouteToSubmittedPost($communityID, $_SESSION['user_id']);
+        $this->rerouteToSubmittedPost($communityID, $_SESSION['user']->getUserID());
 
       } else {
         echo "An Error Occured.";
@@ -273,7 +273,7 @@ class Community
       // echo "statement prepared";
 
       $statement->bindParam(":community_id", $communityID, PDO::PARAM_INT);
-      $statement->bindParam(":user_id", $_SESSION['user_id'], PDO::PARAM_INT);
+      $statement->bindParam(":user_id", $_SESSION['user']->getUserID(), PDO::PARAM_INT);
 
       $statement->execute();
     } else {

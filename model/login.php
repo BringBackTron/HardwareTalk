@@ -17,7 +17,8 @@ class  Login
   {
     //globals
     global $validator;
-    
+    global $user;
+
     //initial variables
     $email = "";
     $password = "";
@@ -42,7 +43,7 @@ class  Login
     
     //if errors are empty
     if(empty($this->_f3->get('errors'))) {
-      $sql = "SELECT user_id, username, user_password 
+      $sql = "SELECT user_id, username, user_ip, user_password, user_role_id  
               FROM users 
               WHERE user_email = :email;";
       
@@ -60,25 +61,34 @@ class  Login
             
             //fetch row
             $row = $statement->fetch();
-            
+
             //assign row columns to variables
             $id = $row['user_id'];
             $username = $row['username'];
             $hashedPassword = $row['user_password'];
-            
+            $userRole = $row['user_role_id'];
+            $userIP = $row['user_ip'];
+
             //verify the entered password against the retreived hashed password
             if(password_verify($password, $hashedPassword)){
               //if true then start session and assign logged in data
-              session_start();
+
               $_SESSION['loggedin'] = true;
-              $_SESSION['user_id'] = $id;
-              $_SESSION['username'] = $username;
-              echo '<script>alert("Passwords Match, user logged in")</script>';
               /*
-              echo "<pre>";
-              echo print_r($_SESSION, true);
-              echo "</pre>";
-              */
+              $user = new User($id, $username, $userRole, $userIP);
+              $_SESSION['user'] = $user;*/
+
+              if($userRole == 1){
+                $user = new Admin($id, $username, $userRole, $userIP);
+                $_SESSION['user'] = $user;
+              } else {
+                $user = new User($id, $username, $userRole, $userIP);
+                $_SESSION['user'] = $user;
+              }
+
+
+              //echo '<script>alert("Passwords Match, user logged in")</script>';
+
               $this->_f3->set(
                 'success["loggedin"]',
                 "You have been logged in. You will be redirected."
@@ -100,6 +110,8 @@ class  Login
         //unset the statement variable inside the class
         unset($statement);
       }
+      else
+        echo "statement failed to prepare";
     }
     // echo var_dump($this->_f3->get("success['loggedin']"));
     //unset the database object inside the class

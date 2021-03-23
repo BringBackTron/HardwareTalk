@@ -10,15 +10,16 @@
 //The Controller
 
 //turn on error reporting
+ini_set('display_startup_errors', 1);
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
+//require autoload file
+require_once("vendor/autoload.php");
+require $_SERVER['DOCUMENT_ROOT'].'/../ht-db-config.php';
+
 //start a session
 session_start();
-
-//require autoload file
-require $_SERVER['DOCUMENT_ROOT'].'/../ht-db-config.php';
-require_once("vendor/autoload.php");
 
 
 //create an instance of the base class
@@ -32,13 +33,6 @@ $validator = new Validator();
 $community = new Community($dbh, $f3);
 $data = new DataLayer($dbh, $f3);
 $logout = new Logout($f3);
-$user = new User($dbh);
-
-
-//runs on all pages
-
-if($_SESSION['loggedin']==true)
-  $user->updateThumbs($_SESSION['user_id']);
 
 // set fat-free debugging
 $f3->set('DEBUG', 3);

@@ -17,27 +17,29 @@ class Controller
   {
     global $data;
 
+
+
     for($i = 1; $i < 10; $i++) {
       $data->updateLastPosted($i);
     }
+
+
+    echo "<pre>";
+    echo print_r($_SESSION,true);
+    echo "</pre>";
 
     $communities = $data->populateHomePage();
     $this->_f3->set("communities", $communities);
 
     $view = new Template();
     echo $view->render('views/home.html');
-    /*if($_SESSION['loggedin'] == true) {
-      echo $view->render('views/feed.html');
-    } else {
-      echo $view->render('views/home.html');
-    }*/
-
 
   }
 
   function login()
   {
     global $login;
+
     if($_SESSION['loggedin'] == true) {
       $this->_f3->reroute('/');
     }
@@ -99,7 +101,6 @@ class Controller
     // echo "</pre>";
 
 
-
     $view = new Template();
     echo $view->render('views/community.html');
 
@@ -114,7 +115,7 @@ class Controller
     global $community;
     global $data;
 
-    if($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['submit'] == 'Submit Comment') {
       $text = trim($_POST['commentSubmit']);
       $community->submitComment($communityID, $postID, $text);
     }
