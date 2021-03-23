@@ -106,7 +106,7 @@ class Controller
   }
   function posts($community_id, $post_id)
   {
-    /*
+   /*
    * TODO: if community_id is outside certain bounds redirect to error page.
    * TODO: if post_id is outside certain bounds redirect to error page.
    */
