@@ -8,7 +8,7 @@ class Community
     $this->_dbh =  $dbh;
     $this->_f3 = $f3;
   }
-  function viewPost($post_id)
+  function viewPost($postID)
   {
     $sql = "
             SELECT p.*, u.username 
@@ -21,7 +21,7 @@ class Community
       /* Debug */
       // echo "statement prepared";
 
-      $statement->bindParam(":post_id", $post_id, PDO::PARAM_INT);
+      $statement->bindParam(":post_id", $postID, PDO::PARAM_INT);
 
       if($statement->execute()){
 
@@ -52,7 +52,7 @@ class Community
 
 
   }
-  function viewPosts($community_id)
+  function viewPosts($communityID)
   {
     $sql = "SELECT * FROM posts WHERE community_id = :community_id ORDER BY post_creation_date DESC ";
     if($statement = $this->_dbh->prepare($sql)){
@@ -60,7 +60,7 @@ class Community
       /* Debug */
       // echo "statement prepared";
       
-      $statement->bindParam(":community_id", $community_id, PDO::PARAM_INT);
+      $statement->bindParam(":community_id", $communityID, PDO::PARAM_INT);
 
       if($statement->execute()){
 
@@ -99,7 +99,7 @@ class Community
 
   }
 
-  function viewComments($community_id, $post_id)
+  function viewComments($communityID, $postID)
   {
     $sql = "
             SELECT c.*, u.username 
@@ -114,8 +114,8 @@ class Community
       /* Debug */
       // echo "statement prepared";
 
-      $statement->bindParam(":community_id", $community_id, PDO::PARAM_STR);
-      $statement->bindParam(":post_id", $post_id, PDO::PARAM_STR);
+      $statement->bindParam(":community_id", $communityID, PDO::PARAM_STR);
+      $statement->bindParam(":post_id", $postID, PDO::PARAM_STR);
 
     }
     /* Currently a Debug statement, change to something else like an error page */
@@ -156,7 +156,7 @@ class Community
 
   }
 
-  function submitComment($community_id, $post_id, $text)
+  function submitComment($communityID, $postID, $text)
   {
     $sql = "
             INSERT INTO comments(post_id, community_id, commenter_id, comment_text)
@@ -165,15 +165,15 @@ class Community
     if($statement = $this->_dbh->prepare($sql)) {
 
       //bind params
-      $statement->bindParam(":post_id", $post_id, PDO::PARAM_INT);
-      $statement->bindParam(":community_id", $community_id, PDO::PARAM_INT);
+      $statement->bindParam(":post_id", $postID, PDO::PARAM_INT);
+      $statement->bindParam(":community_id", $communityID, PDO::PARAM_INT);
       $statement->bindParam(":commenter_id", $_SESSION['user_id'], PDO::PARAM_INT);
       $statement->bindParam(":comment_text", $text, PDO::PARAM_STR);
 
       if($statement->execute()) {
         //update post count on post
-        $this->updateCommentsCount($post_id, $_SESSION['user_id']);
-        $this->_f3->reroute("community/".$community_id."/".$post_id);
+        $this->updateCommentsCount($postID, $_SESSION['user_id']);
+        $this->_f3->reroute("community/".$communityID."/".$postID);
 
         //redirect user
 
@@ -185,7 +185,7 @@ class Community
     }
   }
 
-  function submitPost($community_id, $subject, $text, $media)
+  function submitPost($communityID, $subject, $text, $media)
   {
     $sql = "INSERT INTO posts(community_id, user_poster_id, post_type, post_subject, post_text, post_media) 
             VALUES (:community_id, :user_poster_id, :post_type, :post_subject, :post_text, :post_media)";
@@ -199,7 +199,7 @@ class Community
         $post_type = 1;
       }
 
-      $statement->bindParam(":community_id", $community_id, PDO::PARAM_INT);
+      $statement->bindParam(":community_id", $communityID, PDO::PARAM_INT);
       $statement->bindParam(":user_poster_id", $_SESSION['user_id'], PDO::PARAM_INT);
       $statement->bindParam(":post_type", $post_type, PDO::PARAM_INT);
       $statement->bindParam(":post_subject", $subject, PDO::PARAM_STR);
@@ -208,10 +208,10 @@ class Community
 
       if($statement->execute()) {
         //update post count in community
-        $this->updatePostCounts($community_id);
+        $this->updatePostCounts($communityID);
 
         //redirect user
-        $this->rerouteToSubmittedPost($community_id, $_SESSION['user_id']);
+        $this->rerouteToSubmittedPost($communityID, $_SESSION['user_id']);
 
       } else {
         echo "An Error Occured.";
@@ -223,7 +223,7 @@ class Community
     }
   }
 
-  private function rerouteToSubmittedPost($communityId, $userId)
+  private function rerouteToSubmittedPost($communityID, $userID)
   {
     $sql =
       "
@@ -233,8 +233,8 @@ class Community
       ";
     if($statement = $this->_dbh->prepare($sql)) {
 
-      $statement->bindParam(":community_id", $communityId, PDO::PARAM_INT);
-      $statement->bindParam(":user_id", $_SESSION['user_id'], PDO::PARAM_INT);
+      $statement->bindParam(":community_id", $communityID, PDO::PARAM_INT);
+      $statement->bindParam(":user_id", $userID, PDO::PARAM_INT);
 
       if($statement->execute()) {
         $result = $statement->fetch();
@@ -246,7 +246,7 @@ class Community
         // echo print_r($result, true);
         // echo "</pre>";
 
-        $this->_f3->reroute("community/".$communityId."/".$result);
+        $this->_f3->reroute("community/".$communityID."/".$result);
       }
     }
 
@@ -259,9 +259,9 @@ class Community
    *
    * Updates the post count in the communities table by one each time a post is submitted
    *
-   * @param $community_id integer passes in the id number of the commmunity
+   * @param $communityID integer passes in the id number of the commmunity
    */
-  function updatePostCounts($community_id)
+  function updatePostCounts($communityID)
   {
     $sql = "UPDATE communities
             SET 
@@ -272,7 +272,7 @@ class Community
       /* Debug */
       // echo "statement prepared";
 
-      $statement->bindParam(":community_id", $community_id, PDO::PARAM_INT);
+      $statement->bindParam(":community_id", $communityID, PDO::PARAM_INT);
       $statement->bindParam(":user_id", $_SESSION['user_id'], PDO::PARAM_INT);
 
       $statement->execute();
@@ -283,11 +283,9 @@ class Community
   }
   
   //TODO: write function to add thumbs to post
-  function addThumbs(){
+  //function addThumbs(){}
 
-  }
-
-  private function updateCommentsCount($post_id, $user_id)
+  private function updateCommentsCount($postID, $userID)
   {
     $sql = "UPDATE posts
             SET 
@@ -299,8 +297,8 @@ class Community
       /* Debug */
       // echo "statement prepared";
 
-      $statement->bindParam(":post_id", $post_id, PDO::PARAM_INT);
-      $statement->bindParam(":user_id", $user_id, PDO::PARAM_INT);
+      $statement->bindParam(":post_id", $postID, PDO::PARAM_INT);
+      $statement->bindParam(":user_id", $userID, PDO::PARAM_INT);
 
       $statement->execute();
     } else {

@@ -24,6 +24,10 @@ hr{
     border: 1px solid black;
 }
 
+.post-body{
+    color:lightgray;
+}
+
 .post-details {
     display: inline;
     font-size: 18px;

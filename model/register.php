@@ -93,7 +93,7 @@ class Register{
   
     //Execute
     if(empty($this->_f3->get('errors'))){
-      echo '<script>alert("statement executed")</script>';
+      // echo '<script>alert("statement executed")</script>';
       $statement->execute();
     }
     return true;

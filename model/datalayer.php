@@ -48,12 +48,12 @@ class DataLayer
    * post in the table for the specified community and updating the
    * community_last_post_id column in the database.
    *
-   * @param $community_id
+   * @param $communityID integer ID number of the community
    */
-  function updateLastPosted($community_id)
+  function updateLastPosted($communityID)
   {
     //get and assign last posted
-    $lastPost = $this->getLastPosted($community_id);
+    $lastPost = $this->getLastPosted($communityID);
     //update community table with lastest post
     $sql = "UPDATE communities SET community_last_post_id = :last_post WHERE community_id = :community_id";
     if($statement = $this->_dbh->prepare($sql)) {
@@ -66,7 +66,7 @@ class DataLayer
         $lastPost = $lastPost['MAX(post_id)'];
       }
 
-      $statement->bindParam(":community_id", $community_id, PDO::PARAM_INT);
+      $statement->bindParam(":community_id", $communityID, PDO::PARAM_INT);
       $statement->bindParam(":last_post", $lastPost, PDO::PARAM_INT);
 
       if($statement->execute()) {
@@ -87,10 +87,10 @@ class DataLayer
    * post_id from the post table in the database. Helper method for
    * updateLastPosted
    *
-   * @param $community_id integer the id number of the community
+   * @param $communityID integer the id number of the community
    * @return array containing the max value id in the post_id column
    */
-  function getLastPosted($community_id)
+  function getLastPosted($communityID)
   {
     //get latest post_id
     $sql = "SELECT MAX(post_id) FROM posts WHERE community_id = :community_id";
@@ -98,7 +98,7 @@ class DataLayer
       /* Debug */
       // echo "statement prepared";
 
-      $statement->bindParam(":community_id", $community_id, PDO::PARAM_INT);
+      $statement->bindParam(":community_id", $communityID, PDO::PARAM_INT);
 
       if($statement->execute()) {
 
@@ -131,16 +131,9 @@ class DataLayer
             ON c.community_last_post_id = p.post_id";
 
     if($statement = $this->_dbh->prepare($sql)) {
-      /* Debug */
-      // echo "statement prepared";
 
       if($statement->execute()) {
           $results = $statement->fetchAll();
-
-          /* Debug */
-          // echo "<pre>";
-          // echo print_r($results, true);
-          // echo "</pre>";
 
           return $results;
       } else{

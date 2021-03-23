@@ -77,7 +77,7 @@ class Controller
     echo $view->render('views/register.html');
   }
 
-  function community($community_id)
+  function community($communityID)
   {
     /*
    * TODO: if community_id is outside certain bounds redirect to error page.
@@ -85,9 +85,9 @@ class Controller
 
     global $community;
     global $data;
-    $community->viewPosts($community_id);
+    $community->viewPosts($communityID);
 
-    $name = $data->getCommunityName($community_id);
+    $name = $data->getCommunityName($communityID);
 
     $this->_f3->set("pageTitle", $name);
 
@@ -104,7 +104,7 @@ class Controller
     echo $view->render('views/community.html');
 
   }
-  function posts($community_id, $post_id)
+  function posts($communityID, $postID)
   {
    /*
    * TODO: if community_id is outside certain bounds redirect to error page.
@@ -116,14 +116,14 @@ class Controller
 
     if($_SERVER['REQUEST_METHOD'] == 'POST') {
       $text = trim($_POST['commentSubmit']);
-      $community->submitComment($community_id, $post_id, $text);
+      $community->submitComment($communityID, $postID, $text);
     }
 
-    $name = $data->getCommunityName($community_id);
+    $name = $data->getCommunityName($communityID);
 
     $this->_f3->set("pageTitle", $name);
-    $community->viewPost($post_id);
-    $community->viewComments($community_id, $post_id);
+    $community->viewPost($postID);
+    $community->viewComments($communityID, $postID);
 
 
     $view = new Template();
@@ -131,13 +131,11 @@ class Controller
   }
 
   // TODO: Sanitize
-  function submit($community_id)
+  function submit($communityID)
   {
-    echo "submit function reached";
     global $community;
 
     if($_SERVER['REQUEST_METHOD'] == 'POST') {
-      echo "request method reached";
       $subject = $_POST['postSubject'];
       if(!empty($_POST['postText'])) {
         $text = $_POST['postText'];
@@ -156,7 +154,7 @@ class Controller
         $this->_f3->reroute("login");
       }
 
-      $community->submitPost($community_id, $subject, $text, $media);
+      $community->submitPost($communityID, $subject, $text, $media);
     }
 
       $view = new Template();
