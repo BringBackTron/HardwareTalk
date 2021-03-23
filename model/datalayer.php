@@ -152,7 +152,8 @@ class DataLayer
    *
    * @return null if the sql query fails
    */
-  public function populateHomePage(){
+  public function populateHomePage()
+  {
     $sql = "SELECT c.*, p.post_id, p.post_subject, p.post_media, p.post_type
             FROM communities c
             LEFT JOIN posts p 

@@ -44,7 +44,7 @@ class Validator
     if(filter_var($email, FILTER_VALIDATE_EMAIL)) {
       return true;
     }
-    else{
+    else {
       return false;
     }
   }
