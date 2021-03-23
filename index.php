@@ -69,64 +69,47 @@ $f3->route('GET|POST /register', function(){
 
 });
 
-$f3->route('GET /gaming', function(){ //deprecated, remove later
-
-
-    /* Debug */
-    // echo var_dump($_SESSION);
-
-    $view = new Template();
-    echo $view->render('views/communities/gaming.html');
-});
-
-$f3->route('GET /community/12', function($f3){ //deprecated, remove later
-
-    global $community;
-    $community->viewPosts();
-
-    /* Debug */
-    // echo var_dump($_SESSION);
-    // render home.html
-    // echo "<pre>";
-    // echo print_r($f3->get("posts"));
-    // echo "</pre>";
-
-    $view = new Template();
-    echo $view->render('views/communities/diy.html');
-
-});
-
 // define a dynamic route to each community page
-$f3->route('GET /community/@community_id', function($f3){
+$f3->route('GET /community/@communityID', function($f3){
 
     global $controller;
 
-    $community_id = $f3->get("PARAMS.community_id");
+    $communityID = $f3->get("PARAMS.communityID");
 
-    $controller->community($community_id);
+    if($communityID <= 0 || $communityID >= 10){
+      $f3->reroute("/");
+    }
+
+    $controller->community($communityID);
 
 });
 
 // define a dynamic route to each page for posts
-$f3->route('GET|POST /community/@community_id/@post_id', function($f3){
+$f3->route('GET|POST /community/@communityID/@postID', function($f3){
 
     global $controller;
 
-    $community_id = $f3->get("PARAMS.community_id");
-    $post_id = $f3->get("PARAMS.post_id");
+
+    $communityID = $f3->get("PARAMS.communityID");
+    $postID = $f3->get("PARAMS.postID");
+
+    if($communityID <= 0 || $communityID >= 10){
+      $f3->reroute("/");
+    }
 
 
-    $controller->posts($community_id, $post_id);
+
+  $controller->posts($communityID, $postID);
 
 });
 
-$f3->route('GET|POST /community/@community_id/submit', function($f3){
+$f3->route('GET|POST /community/@communityID/submit', function($f3){
 
     global $controller;
 
-    $community_id = $f3->get("PARAMS.community_id");
+    $communityID = $f3->get("PARAMS.communityID");
 
-    $controller->submit($community_id);
+    $controller->submit($communityID);
 
 });
 
