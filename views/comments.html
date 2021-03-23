@@ -121,10 +121,22 @@
   <check if="{{@post.post_type == 1}}">
     <img class="card-img-bottom" src="{{@post.post_media}}" alt="Card image">
   </check>
-</div>
+</div><br>
 
 <!--create form to submit new comments-->
 <check if="{{@SESSION.loggedin == true}}">
+<<<<<<< HEAD
+<div class="container">
+  <form id="submit" method="post" action="#">
+    <div class="form-group mb-1">
+      <textarea id="commentSubmit" name="commentSubmit" placeholder="Type your comment here!"></textarea><br>
+    </div>
+    <div class="form-group text-right">
+      <input type="submit" name="submit" form="submit" value="Submit Comment" class="btn btn-secondary">
+    </div>
+  </form>
+</div>
+=======
   <div class="container pt-3">
     <form id="submit" method="post" action="#">
       <div class="form-group mb-1">
@@ -140,6 +152,7 @@
       </div>
     </form>
   </div>
+>>>>>>> 6a4932dc28a38d16aa35455c33c610a5798264cc
 </check>
 
 <!--Container for the comments-->
