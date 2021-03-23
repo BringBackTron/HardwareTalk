@@ -16,7 +16,7 @@ PHP Files and Functions are clearly commented with Docblocks and follow PEAR sta
 
 Does not have client side validation but has validation on the server side.
 
-All code is clean, clear and well-commented.
+All code is clean, clear, non-redundant, and well-commented. 
 
 The project utilizes a PHP framework, MySQL Database and uses HTML, Javascript, and CSS.
 
