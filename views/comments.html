@@ -120,14 +120,14 @@
   <check if="{{@post.post_type == 1}}">
     <img class="card-img-bottom" src="{{@post.post_media}}" alt="Card image">
   </check>
-</div>
+</div><br>
 
 <!--create form to submit new comments-->
 <check if="{{@SESSION.loggedin == true}}">
 <div class="container">
   <form id="submit" method="post" action="#">
     <div class="form-group mb-1">
-      <textarea id="commentSubmit" name="commentSubmit"></textarea><br>
+      <textarea id="commentSubmit" name="commentSubmit" placeholder="Type your comment here!"></textarea><br>
     </div>
     <div class="form-group text-right">
       <input type="submit" name="submit" form="submit" value="Submit Comment" class="btn btn-secondary">
