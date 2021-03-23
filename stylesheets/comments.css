@@ -1,3 +1,42 @@
+a:link, .community-text:link {
+    text-decoration: none;!important
+}
+
+.community-text:link, .community-text:visited {
+    color:  white;
+}
+
+.gradient {
+    height: 80px;
+    width: 100%;
+    display: block;
+}
+
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-shadow: 0px 0px black;
+}
+
+.container {
+    position: relative;
+    text-align: center;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.community-text {
+    font-size: 70px;
+    text-decoration: none;
+}
+
+.community-text:link, .community-text:visited {
+    color:  white;
+}
+
 textarea {
     width: 100%;
 }
@@ -32,6 +71,10 @@ textarea {
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
     top: 50%;
+}
+
+.container-details {
+
 }
 
 .container-info {
