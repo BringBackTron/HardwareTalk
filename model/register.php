@@ -37,7 +37,7 @@ class Register
    *
    * @return bool true if the user was registered, false if not
    */
-  function registerUser()
+  public function registerUser()
   {
     //assign globals
     global $validator;
@@ -53,7 +53,7 @@ class Register
     $username = "";
     $email = "";
     $password = "";
-    $ipaddress = $this->get_ip();
+    $ipaddress = $this->getIP();
   
     
     /* validate username */
@@ -139,7 +139,7 @@ class Register
    * Function original posted at: https://stackoverflow.com/a/2031935
    * @return string
    */
-  function get_ip()
+  private function getIP()
   {
     foreach (array('HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR') as $key) {
       if (array_key_exists($key, $_SERVER) === true) {

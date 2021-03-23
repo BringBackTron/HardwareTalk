@@ -95,6 +95,55 @@ class Community
     }
   }
 
+  /**
+   * Submits a post to a community
+   *
+   * Submits a post to a community by executing a sql statement that inserts
+   * a new row into the posts table in the database. If media is empty
+   * post_type is set to 0.
+   *
+   * @param $communityID integer id of the community
+   * @param $subject string subject title of the post
+   * @param $text string text of the post
+   * @param $media string url link for the media (optional)
+   */
+  function submitPost($communityID, $subject, $text, $media)
+  {
+    $sql = "INSERT INTO posts(community_id, user_poster_id, post_type, post_subject, post_text, post_media) 
+            VALUES (:community_id, :user_poster_id, :post_type, :post_subject, :post_text, :post_media)";
+    if($statement = $this->_dbh->prepare($sql)) {
+
+      //check to see if $media is empty and set post_type
+      if(empty($media)){
+        $post_type = 0;
+      } else {
+        $post_type = 1;
+      }
+
+      //bind params
+      $statement->bindParam(":community_id", $communityID, PDO::PARAM_INT);
+      $statement->bindParam(":user_poster_id", $_SESSION['user']->getUserID(), PDO::PARAM_INT);
+      $statement->bindParam(":post_type", $post_type, PDO::PARAM_INT);
+      $statement->bindParam(":post_subject", $subject, PDO::PARAM_STR);
+      $statement->bindParam(":post_text", $text, PDO::PARAM_STR);
+      $statement->bindParam(":post_media", trim($media), PDO::PARAM_STR);
+
+      //if the statement can execute
+      if($statement->execute()) {
+
+        //update post count in community
+        $this->updatePostCounts($communityID);
+
+        //redirect user
+        $this->rerouteToSubmittedPost($communityID, $_SESSION['user']->getUserID());
+
+      } else {
+        echo "An Error Occured.";
+      }
+    } else {
+      echo "An Error Occured";
+    }
+  }
 
   /**
    * Gets all comments associated with a post
@@ -174,93 +223,6 @@ class Community
   }
 
   /**
-   * Submits a post to a community
-   *
-   * Submits a post to a community by executing a sql statement that inserts
-   * a new row into the posts table in the database. If media is empty
-   * post_type is set to 0.
-   *
-   * @param $communityID integer id of the community
-   * @param $subject string subject title of the post
-   * @param $text string text of the post
-   * @param $media string url link for the media (optional)
-   */
-  function submitPost($communityID, $subject, $text, $media)
-  {
-    $sql = "INSERT INTO posts(community_id, user_poster_id, post_type, post_subject, post_text, post_media) 
-            VALUES (:community_id, :user_poster_id, :post_type, :post_subject, :post_text, :post_media)";
-    if($statement = $this->_dbh->prepare($sql)) {
-
-      //check to see if $media is empty and set post_type
-      if(empty($media)){
-        $post_type = 0;
-      } else {
-        $post_type = 1;
-      }
-
-      //bind params
-      $statement->bindParam(":community_id", $communityID, PDO::PARAM_INT);
-      $statement->bindParam(":user_poster_id", $_SESSION['user']->getUserID(), PDO::PARAM_INT);
-      $statement->bindParam(":post_type", $post_type, PDO::PARAM_INT);
-      $statement->bindParam(":post_subject", $subject, PDO::PARAM_STR);
-      $statement->bindParam(":post_text", $text, PDO::PARAM_STR);
-      $statement->bindParam(":post_media", trim($media), PDO::PARAM_STR);
-
-      //if the statement can execute
-      if($statement->execute()) {
-
-        //update post count in community
-        $this->updatePostCounts($communityID);
-
-        //redirect user
-        $this->rerouteToSubmittedPost($communityID, $_SESSION['user']->getUserID());
-
-      } else {
-        echo "An Error Occured.";
-      }
-    } else {
-      echo "An Error Occured";
-    }
-  }
-
-  /**
-   * Reroutes the user to the post they just summitted
-   *
-   * @param $communityID integer id of the community
-   * @param $userID integer id of the user
-   */
-  private function rerouteToSubmittedPost($communityID, $userID)
-  {
-    $sql =
-      "
-        SELECT MAX(post_id) 
-        FROM posts 
-        WHERE community_id = :community_id AND user_poster_id = :user_id
-      ";
-    if($statement = $this->_dbh->prepare($sql)) {
-
-      $statement->bindParam(":community_id", $communityID, PDO::PARAM_INT);
-      $statement->bindParam(":user_id", $userID, PDO::PARAM_INT);
-
-      if($statement->execute()) {
-        $result = $statement->fetch();
-
-        $result = $result['MAX(post_id)'];
-
-        /* Debug */
-        // echo "<pre>";
-        // echo print_r($result, true);
-        // echo "</pre>";
-
-        $this->_f3->reroute("community/".$communityID."/".$result);
-      }
-    }
-
-
-  }
-
-
-  /**
    * Updates the post count in the communities table
    *
    * Updates the post count in the communities table by one each time a post
@@ -319,6 +281,42 @@ class Community
     } else {
       echo "An Error Occured during preperation";
     }
+  }
+
+  /**
+   * Reroutes the user to the post they just summitted
+   *
+   * @param $communityID integer id of the community
+   * @param $userID integer id of the user
+   */
+  private function rerouteToSubmittedPost($communityID, $userID)
+  {
+    $sql =
+      "
+        SELECT MAX(post_id) 
+        FROM posts 
+        WHERE community_id = :community_id AND user_poster_id = :user_id
+      ";
+    if($statement = $this->_dbh->prepare($sql)) {
+
+      $statement->bindParam(":community_id", $communityID, PDO::PARAM_INT);
+      $statement->bindParam(":user_id", $userID, PDO::PARAM_INT);
+
+      if($statement->execute()) {
+        $result = $statement->fetch();
+
+        $result = $result['MAX(post_id)'];
+
+        /* Debug */
+        // echo "<pre>";
+        // echo print_r($result, true);
+        // echo "</pre>";
+
+        $this->_f3->reroute("community/".$communityID."/".$result);
+      }
+    }
+
+
   }
 
 }
