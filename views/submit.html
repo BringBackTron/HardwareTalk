@@ -109,8 +109,13 @@ Date:
         <div class="form-group">
           <label for="postMedia">Post Media</label>
           <em class="text-muted">(optional)</em><br>
-          <input id="postMedia" name="postMedia" type="text" placeholder="Imgur Link">
+          <input id="postMedia" name="postMedia" type="text" placeholder="Image Link Address">
         </div>
+        <span class="invalidInput text-danger">
+          <check if="{{ isset(@errors['invalidImage']) }}">
+            {{ @errors['invalidImage'] }}
+          </check>
+        </span>
         <div class="form-group">
           <input type="submit" class="btn btn-primary">
         </div>

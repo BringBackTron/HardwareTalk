@@ -43,12 +43,11 @@
       $sql =
         "
           UPDATE posts
-          SET post_comments = post_commments - 1
+          SET post_comments = post_comments - 1
           WHERE post_id = :post_id;
         ";
 
       if($statement = $dbh->prepare($sql)) {
-        echo "statement prepared";
 
         $statement->bindParam(":post_id", $postID, PDO::PARAM_INT);
 
